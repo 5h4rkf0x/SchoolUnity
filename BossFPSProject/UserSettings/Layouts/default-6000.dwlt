@@ -1584,8 +1584,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1084
-    y: 78
+    x: -14916
+    y: -15964
     width: 355
     height: 728
   m_SerializedDataModeController:
