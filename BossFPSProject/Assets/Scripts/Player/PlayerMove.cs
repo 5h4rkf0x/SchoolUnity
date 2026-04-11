@@ -3,7 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float sprintSpeed;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private Animator animator;
 
     private Vector2 moveInput;
 
@@ -14,6 +17,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        bool isSprinting = playerInput.actions["Sprint"].IsPressed();
+        bool isWalking = moveInput.sqrMagnitude > 0.01f;
+
         Vector3 forwardAxis = transform.right;
         Vector3 sideAxis = transform.forward;
 
@@ -28,6 +34,15 @@ public class PlayerMove : MonoBehaviour
         if (moveDir.sqrMagnitude > 1f)
             moveDir.Normalize();
 
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        float currentSpeed = moveSpeed;
+
+        if (moveInput.sqrMagnitude > 0.01f && isSprinting)
+        {
+            currentSpeed = sprintSpeed;
+        }
+
+        transform.position += moveDir * currentSpeed * Time.deltaTime;
+        animator.SetBool("IsWalking", isWalking);
+        animator.SetBool("IsSprinting", isWalking && isSprinting);
     }
 }
