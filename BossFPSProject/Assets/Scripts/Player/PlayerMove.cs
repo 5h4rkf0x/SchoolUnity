@@ -1,3 +1,4 @@
+using JetBrains.Rider.Unity.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,44 +6,73 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float sprintSpeed;
+    [SerializeField] private bool isSprinting;
+
+    [SerializeField] private Vector3 moveDir;
+    [SerializeField] private Rigidbody rigid;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private Transform playerCam;
     [SerializeField] private Animator animator;
 
-    private Vector2 moveInput;
+    [SerializeField] private Vector2 moveInput;
 
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
 
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody>();
+    }
+
     private void Update()
     {
-        bool isSprinting = playerInput.actions["Sprint"].IsPressed();
-        bool isWalking = moveInput.sqrMagnitude > 0.01f;
+        AnimationControll();
+    }
 
-        Vector3 forwardAxis = transform.right;
-        Vector3 sideAxis = transform.forward;
+    private void FixedUpdate()
+    {
+        isSprinting = playerInput.actions["Sprint"].IsPressed();
+        Move();
+    }
 
-        forwardAxis.y = 0f;
-        sideAxis.y = 0f;
+    private void Move()
+    {
 
-        forwardAxis.Normalize();
-        sideAxis.Normalize();
+        Vector3 cameraForward = playerCam.forward;
+        Vector3 cameraRight = playerCam.right;
 
-        Vector3 moveDir = forwardAxis * moveInput.x + sideAxis * moveInput.y;
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
 
-        if (moveDir.sqrMagnitude > 1f)
-            moveDir.Normalize();
+        moveDir = cameraRight * moveInput.x + cameraForward * moveInput.y;
 
         float currentSpeed = moveSpeed;
 
-        if (moveInput.sqrMagnitude > 0.01f && isSprinting)
+        if (isSprinting)
         {
             currentSpeed = sprintSpeed;
         }
 
-        transform.position += moveDir * currentSpeed * Time.deltaTime;
-        animator.SetBool("IsWalking", isWalking);
-        animator.SetBool("IsSprinting", isWalking && isSprinting);
+        rigid.linearVelocity = moveDir * currentSpeed;
+    }
+
+    private void AnimationControll()
+    {
+
+        Vector2 vector = new Vector2(rigid.linearVelocity.x, rigid.linearVelocity.z);
+        float Velocity = vector.magnitude / (sprintSpeed);
+
+        //if (isSprinting)
+        //{
+        //    Velocity = vector.magnitude / (sprintSpeed);
+        //}
+
+        animator.SetFloat("Velocity", Velocity);
+        animator.SetFloat("DirX", moveInput.x);
+        animator.SetFloat("DirY", moveInput.y);
     }
 }
