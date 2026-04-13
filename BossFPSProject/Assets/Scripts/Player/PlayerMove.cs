@@ -28,7 +28,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        AnimationControll();
+        AnimationControl();
     }
 
     private void FixedUpdate()
@@ -50,26 +50,21 @@ public class PlayerMove : MonoBehaviour
 
         moveDir = cameraRight * moveInput.x + cameraForward * moveInput.y;
 
-        float currentSpeed = moveSpeed;
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
 
-        if (isSprinting)
-        {
-            currentSpeed = sprintSpeed;
-        }
+        // rigid.linearVelocity = moveDir * currentSpeed;
+        Vector3 velocity = rigid.linearVelocity;
+        velocity.x = moveDir.x * currentSpeed;
+        velocity.z = moveDir.z * currentSpeed;
+        rigid.linearVelocity = velocity;
 
-        rigid.linearVelocity = moveDir * currentSpeed;
     }
 
-    private void AnimationControll()
+    private void AnimationControl()
     {
-
-        Vector2 vector = new Vector2(rigid.linearVelocity.x, rigid.linearVelocity.z);
-        float Velocity = vector.magnitude / (sprintSpeed);
-
-        //if (isSprinting)
-        //{
-        //    Velocity = vector.magnitude / (sprintSpeed);
-        //}
+        Vector3 vector = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
+        float Velocity= vector.magnitude / sprintSpeed;
+        Velocity = Mathf.Clamp01(Velocity);
 
         animator.SetFloat("Velocity", Velocity);
         animator.SetFloat("DirX", moveInput.x);
