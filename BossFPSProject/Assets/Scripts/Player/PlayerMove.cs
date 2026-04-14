@@ -21,11 +21,14 @@ public class PlayerMove : MonoBehaviour
 
     private bool isGrounded;
 
-
+    // Move
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Transform playerCam;
     [SerializeField] private Animator animator;
+
+    // GunControl
+    WeaponManager weaponManager;
 
     public void OnMove(InputValue value)
     {
@@ -87,6 +90,10 @@ public class PlayerMove : MonoBehaviour
 
     private void AnimationControl()
     {
+        if (weaponManager.isReloading)
+        {
+            animator.SetBool("IsReloading", weaponManager.isReloading);
+        }
         Vector3 vector = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
         float Velocity= vector.magnitude / sprintSpeed;
         Velocity = Mathf.Clamp01(Velocity);
