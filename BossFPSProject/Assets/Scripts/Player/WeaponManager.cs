@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class WeaponManager: MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
+
     [SerializeField] private Camera cam;
     [SerializeField] private Transform fireTransform;
     [SerializeField] private Rigidbody bulletPrefab;
@@ -13,19 +13,13 @@ public class WeaponManager: MonoBehaviour
 
     public bool isReloading = false;
 
-    public void OnAttack(InputValue value)
+    public void Reload()
     {
-        Fire();
-    }
-
-    public void OnReload(InputValue value)
-    {
-        if (!value.isPressed) return;
         isReloading = true;
         Debug.Log($"{gameObject.name} ¿Á¿Â¿¸");
     }
 
-    private void Fire()
+    public void Fire()
     {
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 

@@ -15,13 +15,12 @@ public class PlayerMove : MonoBehaviour
 
     // Jump
     [SerializeField] private float jumpForce;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundLayer;
 
     private bool isGrounded;
 
     // Move
+    [SerializeField] private CapsuleCollider movecoll;
     [SerializeField] private Rigidbody rigid;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Transform playerCam;
@@ -30,14 +29,27 @@ public class PlayerMove : MonoBehaviour
     // GunControl
     WeaponManager weaponManager;
 
+    public void OnAttack(InputValue value)
+    {
+        weaponManager.Fire();
+    }
+
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+    public void OnReload(InputValue value)
+    {
+        if (!value.isPressed) return;
+        Debug.Log($"{gameObject.name} ¿Á¿Â¿¸");
+        weaponManager.Reload();
     }
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        weaponManager = GetComponentInChildren<WeaponManager>();
+        movecoll = GetComponent<CapsuleCollider>();
     }
 
     private void Update()
@@ -51,9 +63,12 @@ public class PlayerMove : MonoBehaviour
         Move();
         CheckGround();
     }
+
     private void CheckGround()
     {
-        isGrounded = Physics.CheckSphere( groundCheck.position, groundCheckRadius, groundLayer );
+        float colllocate = movecoll.bounds.min.y + movecoll.radius - 0.2f;
+        Vector3 vector3 = new Vector3(movecoll.bounds.min.x, colllocate, movecoll.bounds.min.z);
+        isGrounded = Physics.CheckSphere(vector3, movecoll.radius , groundLayer);
     }
 
     private void Move()
@@ -90,10 +105,6 @@ public class PlayerMove : MonoBehaviour
 
     private void AnimationControl()
     {
-        if (weaponManager.isReloading)
-        {
-            animator.SetBool("IsReloading", weaponManager.isReloading);
-        }
         Vector3 vector = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
         float Velocity= vector.magnitude / sprintSpeed;
         Velocity = Mathf.Clamp01(Velocity);
@@ -103,5 +114,9 @@ public class PlayerMove : MonoBehaviour
         animator.SetFloat("DirY", moveInput.y);
 
         animator.SetBool("IsJumping", !isGrounded);
+        if (weaponManager.isReloading)
+        {
+            animator.SetBool("IsReloading", weaponManager.isReloading);
+        }
     }
 }
