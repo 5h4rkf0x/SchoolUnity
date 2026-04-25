@@ -29,22 +29,6 @@ public class PlayerMove : MonoBehaviour
     // GunControl
     WeaponManager weaponManager;
 
-    public void OnAttack(InputValue value)
-    {
-        weaponManager.Fire();
-    }
-
-    public void OnMove(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-    }
-    public void OnReload(InputValue value)
-    {
-        if (!value.isPressed) return;
-        Debug.Log($"{gameObject.name} ¿Á¿Â¿¸");
-        weaponManager.Reload();
-    }
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -71,6 +55,43 @@ public class PlayerMove : MonoBehaviour
         isGrounded = Physics.CheckSphere(vector3, movecoll.radius , groundLayer);
     }
 
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+
+    public void OnJump(InputValue value)
+    {
+        if (!value.isPressed) return;
+
+        if (isGrounded)
+        {
+            rigid.linearVelocity = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
+
+            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    public void OnReload(InputValue value)
+    {
+        if (!value.isPressed) return;
+        Debug.Log($"{gameObject.name} ¿Á¿Â¿¸");
+        weaponManager.Reload();
+    }
+
+    public void OnAttack(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            weaponManager.StartFire();
+        }
+        else
+        {
+            Debug.Log("ø¨ªÁ ∏ÿ√„");
+            weaponManager.StopFire();
+        }
+    }
+
     private void Move()
     {
         Vector3 cameraForward = playerCam.forward;
@@ -89,18 +110,6 @@ public class PlayerMove : MonoBehaviour
         velocity.x = moveDir.x * currentSpeed;
         velocity.z = moveDir.z * currentSpeed;
         rigid.linearVelocity = velocity;
-    }
-
-    public void OnJump(InputValue value)
-    {
-        if (!value.isPressed) return;
-
-        if (isGrounded)
-        {
-            rigid.linearVelocity = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
-
-            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
     }
 
     private void AnimationControl()
