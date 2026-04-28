@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    [SerializeField] private float BulletDamage;
+    public float bulletDamage => BulletDamage;
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -9,7 +11,7 @@ public class BulletController : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            enemy.TakeDamage();
+            enemy.TakeDamage(bulletDamage);
         }
     }
 }

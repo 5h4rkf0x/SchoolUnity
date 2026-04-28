@@ -2,8 +2,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public void TakeDamage()
+    [SerializeField] private float Health;
+    [SerializeField] private float MaxHealth;
+
+    private void Awake()
     {
-        Debug.Log("À¸¾ï!");
+        Health = MaxHealth;
+    }
+
+    public void TakeDamage(float bulletDamage)
+    {
+        Health -= bulletDamage;
+        Debug.Log(Health);
+
+        if (Health <= 0)
+        {
+            Die();
+        }
+    }
+    
+    private void Die()
+    {
+        Debug.Log("Å©¾Æ¾Ç!@@@");
+        gameObject.SetActive(false);
     }
 }
