@@ -2,23 +2,12 @@ using JetBrains.Rider.Unity.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
-    // Move
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float sprintSpeed;
-    
-    private Vector2 moveInput;
-    private Vector3 moveDir;
-    private bool isSprinting;
-
-    // Jump
-    [SerializeField] private float jumpForce;
-    [SerializeField] private LayerMask groundLayer;
-
-    private bool isGrounded;
-
+    // Å¬·¡½º ============================================================================
+    [Header("Components")]
     // Move
     [SerializeField] private CapsuleCollider movecoll;
     [SerializeField] private Rigidbody rigid;
@@ -27,7 +16,27 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Animator animator;
 
     // GunControl
-    WeaponManager weaponManager;
+    [SerializeField] WeaponManager weaponManager;
+
+    [Header("Structs")]
+    // Jump
+    [SerializeField] private LayerMask groundLayer;
+
+    // Move
+    private Vector2 moveInput;
+    private Vector3 moveDir;
+
+    [Header("Variable")]
+    // Jump
+    [SerializeField] private float jumpForce;
+    private bool isGrounded;
+
+    // Move
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float sprintSpeed;
+    private bool isSprinting;
+
+    public CapsuleCollider Movecoll => movecoll;
 
     private void Awake()
     {

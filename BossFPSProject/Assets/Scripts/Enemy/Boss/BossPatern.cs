@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class BossPatern : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] public PlayerMove player;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        player = FindFirstObjectByType<PlayerMove>();
+    }
+    
+    private void FloorBombAttack()   // 지형 원형으로 랜덤하게 파괴 생성
+    {
+
     }
 }

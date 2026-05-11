@@ -5,6 +5,11 @@ public class BulletController : MonoBehaviour
     [SerializeField] private float BulletDamage;
     public float bulletDamage => BulletDamage;
 
+    void Start()
+    {
+        Destroy(gameObject, 3f);
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Enemy")
@@ -13,5 +18,6 @@ public class BulletController : MonoBehaviour
 
             enemy.TakeDamage(bulletDamage);
         }
+        Destroy(gameObject);
     }
 }
