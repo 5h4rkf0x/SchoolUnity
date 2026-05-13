@@ -577,7 +577,6 @@ MonoBehaviour:
   playerInput: {fileID: 1061956850250664084}
   playerCam: {fileID: 605938120298812980}
   animator: {fileID: 6784549037538986632}
-  playerCenter: {fileID: 1765167099244110292}
   weaponManager: {fileID: 0}
   groundLayer:
     serializedVersion: 2
@@ -1798,7 +1797,6 @@ Transform:
   - {fileID: 1116442637566753446}
   - {fileID: 151530309827753303}
   - {fileID: 4394055438878478982}
-  - {fileID: 1765167099244110292}
   m_Father: {fileID: 4042009851073297329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6784549037538986632
@@ -2513,37 +2511,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5487601456417562900}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6163946170171352212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1765167099244110292}
-  m_Layer: 0
-  m_Name: PlayerCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1765167099244110292
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6163946170171352212}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.475, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8658012983460008176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6308747904472726321
 GameObject:

@@ -1242,9 +1242,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5173425162983955283}
   - component: {fileID: 6341115064763178467}
+  - component: {fileID: 8769424857697666979}
   m_Layer: 0
   m_Name: BossOnAir
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1258,7 +1259,7 @@ Transform:
   m_GameObject: {fileID: 3503779893274198476}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 2.272, z: 3.467}
+  m_LocalPosition: {x: 0, y: 2, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1294,6 +1295,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8769424857697666979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3503779893274198476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17344e3d7e25bea4c8050f97b1c69609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss
+  Health: 0
+  MaxHealth: 1000
 --- !u!1 &3520393177745211298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,7 +1982,9 @@ MonoBehaviour:
   rb: {fileID: 0}
   player: {fileID: 0}
   target: {fileID: 0}
-  moveArea: 3
+  minLimit: {x: -20, y: 2, z: -10}
+  maxLimit: {x: 20, y: 10, z: 20}
+  moveArea: 6
   moveSpeed: 5
   minMoveTime: 1
   maxMoveTime: 4
@@ -2539,14 +2556,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9090d34f692c043b48f7a701c0a15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossKnifeSpawn
-  knifePrefab: {fileID: 0}
+  knifePrefab: {fileID: 516479403383510042, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
   knifes:
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
-  - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spawnPoints:
   - {fileID: 2672121886271358893}
   - {fileID: 4114264013960508212}

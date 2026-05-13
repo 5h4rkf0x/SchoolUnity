@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class KnifePatterns : MonoBehaviour
 {
+    /// <summary>
+    /// 필요한 것
+    /// 1. 재설정 함수들
+    /// 2. 
+    /// </summary>
+    
     [Header("Components")]
     // 필요한 클래스 객체 불러오기
     [SerializeField] private BossMove boss;
@@ -10,7 +16,7 @@ public class KnifePatterns : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Structs")]
-    // 타겟 위치 및 칼 관리 변수
+    // 타겟 위치 및 칼 관리 변수 -> KnifeManager로 이동
     private Vector3 spawnPos;
     private Quaternion spawnRot;
     private Vector3 targetPos;
@@ -24,7 +30,7 @@ public class KnifePatterns : MonoBehaviour
     private float afterPatternTime;
     private float nextPatternTime;
 
-    // 패턴 선택 관리 변수
+    // 패턴 선택 관리 변수 -> KnifeManager로 이동
     private int maxPatternNum = 3;
     private int patternNum;
 
@@ -34,7 +40,7 @@ public class KnifePatterns : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Transform bossOverall = transform.root;
+        Transform bossOverall = transform.root;     // 여기 아래부터 KnifeManager로 이동
         boss = bossOverall.GetComponentInChildren<BossMove>();
 
         spawnPos = transform.position;
@@ -45,19 +51,11 @@ public class KnifePatterns : MonoBehaviour
 
     void Start()
     {
-        if (boss == null) return;
-
-        if (boss.player == null)
-        {
-            Debug.Log("boss.player MISSING!!!!");
-            return;
-        }
-
-        target = boss.player.Movecoll;
+        target = boss.player.Movecoll; // 타겟은 KnifeManager 총괄로 하고 따로 실행시점에 사용할 Vector3값을 받아올까?
         SetNextPatternInfo();
     }
 
-    void Update()
+    void Update()   // KnifeManager로 이동
     {
         afterPatternTime += Time.deltaTime;
 
@@ -69,10 +67,6 @@ public class KnifePatterns : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
@@ -115,6 +109,11 @@ public class KnifePatterns : MonoBehaviour
         Debug.Log("짤패턴 종료");
     }
 
+    // 칼날 초기화 관련 함수
+    private void Init()
+    {
+
+    }
     // 패턴 준비 함수
     private void TargetDir(CapsuleCollider target)
     {
