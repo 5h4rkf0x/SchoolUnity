@@ -5,7 +5,7 @@ public class KnifePatterns : MonoBehaviour
 {
     [Header("Components")]
     // 필요한 클래스 객체 불러오기
-    [SerializeField] private BossPatern boss;
+    [SerializeField] private BossMove boss;
     [SerializeField] private CapsuleCollider target;
     private Rigidbody rb;
 
@@ -35,7 +35,7 @@ public class KnifePatterns : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Transform bossOverall = transform.root;
-        boss = bossOverall.GetComponentInChildren<BossPatern>();
+        boss = bossOverall.GetComponentInChildren<BossMove>();
 
         spawnPos = transform.position;
         spawnRot = transform.rotation;
@@ -75,7 +75,7 @@ public class KnifePatterns : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
@@ -119,14 +119,16 @@ public class KnifePatterns : MonoBehaviour
     private void TargetDir(CapsuleCollider target)
     {
         // 칼날의 방향 전환 - 타겟 방향으로
-        transform.LookAt(target.center);
-        Vector3 dir = (target.center - transform.position).normalized;
+        targetPos = target.bounds.center;
+        targetPos.y += 0.23f;
+
+        Vector3 dir = (targetPos - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(-90, 0, 0);
     }
     private void PerpendicularDir(CapsuleCollider target)
     {
         // 칼날의 방향 전환 - 타겟과 수직으로
-        Vector3 dir = target.center - transform.position;
+        Vector3 dir = target.bounds.center - transform.position;
         dir.y = 0f;
 
         if (dir == Vector3.zero) return;
@@ -140,8 +142,10 @@ public class KnifePatterns : MonoBehaviour
     private void ThrowKnife(CapsuleCollider target)
     {
         // 타겟에게 직접 날아가 공격 - 회전하면서 날아가는것도 좋을듯?
+        rb.isKinematic = false;
+
         TargetDir(target);
-        Vector3 dir = (target.center - transform.position).normalized;
+        Vector3 dir = (targetPos - transform.position).normalized;
 
         rb.linearVelocity = dir * knifeSpeed;
         rb.angularVelocity = transform.forward * rotateSpeed;
@@ -149,16 +153,20 @@ public class KnifePatterns : MonoBehaviour
 
     private void BombAttack(CapsuleCollider target)
     {
-        // 타겟에게 날아가 1초 정도 뒤에 폭발
-        // targetPos = target.position;
-        // 
-        // TargetDir(target);
+        // 타겟에게 날아가 1초 정도 뒤에 폭발 ----- 시전 전의 타겟의 위치에 도달시 정지 후 폭발
+        rb.isKinematic = false;
+
+        TargetDir(target);
+        Vector3 dir = (targetPos - transform.position).normalized;
+
+        rb.linearVelocity = dir * knifeSpeed;
     }
 
     private void ThrowStone(CapsuleCollider target)
     {
         // 땅으로 내려가서 돌을 가져온뒤 타겟의 수직방향에서 투석기처럼 모션하기
 
+        // rb.isKinematic = false;
 
         // PerpendicularDir(target);
 

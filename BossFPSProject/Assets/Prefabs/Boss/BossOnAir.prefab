@@ -1266,7 +1266,7 @@ Transform:
   - {fileID: 3486732186471964732}
   - {fileID: 2390393238692712363}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &6341115064763178467
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1292,7 +1292,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &3520393177745211298
 GameObject:
@@ -1964,6 +1964,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c657492a07472c0488cc778600c21e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossMove
+  rb: {fileID: 0}
+  player: {fileID: 0}
+  target: {fileID: 0}
+  moveArea: 3
+  moveSpeed: 5
+  minMoveTime: 1
+  maxMoveTime: 4
 --- !u!114 &2034235498280065749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,7 +1983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c934c7fdfdd17547b90da4a3d94bc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPatern
-  player: {fileID: 0}
 --- !u!1 &4908224282087628353
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9090d34f692c043b48f7a701c0a15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossKnifeSpawn
-  knifePrefab: {fileID: 5982237125522567202, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
+  knifePrefab: {fileID: 0}
   knifes:
   - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
   - {fileID: 547266204723151074, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
