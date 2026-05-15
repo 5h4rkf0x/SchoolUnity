@@ -132,9 +132,9 @@ public class PlayerMove : MonoBehaviour
         animator.SetFloat("DirY", moveInput.y);
 
         animator.SetBool("IsJumping", !isGrounded);
-        if (weaponManager.isReloading)
-        {
-            animator.SetBool("IsReloading", weaponManager.isReloading);
-        }
+        // if (weaponManager.isReloading)
+        // {
+        //     animator.SetBool("IsReloading", weaponManager.isReloading);
+        // }
     }
 }

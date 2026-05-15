@@ -37,7 +37,7 @@ public class BossMove : MonoBehaviour
     void Awake()
     {
         rb = GetComponentInParent<Rigidbody>();
-        player = FindFirstObjectByType<PlayerMove>();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
         nextMoveTime = Random.Range(minMoveTime, maxMoveTime);
     }
 

@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections;
+using System.Net;
 
 public class KnifePatterns : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class KnifePatterns : MonoBehaviour
     // 필요한 클래스 객체 불러오기
     [SerializeField] private BossMove boss;
     [SerializeField] private CapsuleCollider target;
+    [SerializeField] private KnifeManager knifeManager;
     private Rigidbody rb;
 
     [Header("Structs")]
@@ -69,7 +72,11 @@ public class KnifePatterns : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
+        if (other.gameObject.tag == "Player")
+        {
+            knifeManager.HitPlayer();
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
@@ -159,6 +166,15 @@ public class KnifePatterns : MonoBehaviour
         Vector3 dir = (targetPos - transform.position).normalized;
 
         rb.linearVelocity = dir * knifeSpeed;
+        StartCoroutine(Explode());
+    }
+
+    private IEnumerator Explode()
+    {
+        if (targetPos == transform.position)
+        {
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     private void ThrowStone(CapsuleCollider target)

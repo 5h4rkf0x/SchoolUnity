@@ -1,29 +1,42 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Boss: MonoBehaviour
 {
-    [SerializeField] private float Health;
-    [SerializeField] private float MaxHealth;
+    [Header("Components")]
+    [SerializeField] private BossHPBar hpUI;
+
+    [Header("Variables")]
+    [SerializeField] private float health;
+    [SerializeField] private float maxHealth;
 
     private void Awake()
     {
-        Health = MaxHealth;
+        hpUI = FindFirstObjectByType<BossHPBar>();
+        health = maxHealth;
+    }
+    private void Start()
+    {
+        hpUI.SetHP(health, maxHealth);
     }
 
     public void TakeDamage(float bulletDamage)
     {
-        Health -= bulletDamage;
-        Debug.Log(Health);
+        health -= bulletDamage;
+        hpUI.SetHP(health, maxHealth);
 
-        if (Health <= 0)
+        Debug.Log(health);
+
+        if (health <= 0)
         {
             Die();
+            hpUI.CloseBossBar();
         }
     }
     
     private void Die()
     {
-        Debug.Log("Å©¾Æ¾Ç!@@@");
+        Debug.Log("º¸½º »ç¸Á!@@@");
         gameObject.SetActive(false);
     }
 }

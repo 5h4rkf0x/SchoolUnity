@@ -45,6 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Letters
+    uniqueID: 2387241527
+    locked: 0
+  - name: HpBars
+    uniqueID: 2786992343
+    locked: 0
+  - name: Images
+    uniqueID: 2415555315
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1

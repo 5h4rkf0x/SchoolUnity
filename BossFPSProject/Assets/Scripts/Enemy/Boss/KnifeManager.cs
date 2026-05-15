@@ -7,21 +7,24 @@ public class KnifeManager : MonoBehaviour
     /// <summary>
     /// 나이프 넘버를 리스트로 만들고 이 리스트마다 다음패턴까지의 시간이랑 이런걸 관리 할 수 있을까? -> S.O로 관리해야할까?
     /// </summary>
-    
+
 
     [Header("Components")]
+    [SerializeField] Player player;
     [SerializeField] KnifePatterns knifePrefab;
     [SerializeField] List<GameObject> knifes;
 
     [SerializeField] List<Transform> spawnPoints;
 
     [Header("Variables")]
+    [SerializeField] private float knifeDamage = 20;
     private int knifeNum;
 
     public List<Transform> SpawnPoints => spawnPoints;
 
     private void Awake()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         for (int i = 0; i < 6; i++)
         {
             knifes[i] = knifePrefab.gameObject;
@@ -38,5 +41,10 @@ public class KnifeManager : MonoBehaviour
         {
             Instantiate(knifes[i], spawnPoints[i].position, Quaternion.identity, transform);
         }
+    }
+
+    public void HitPlayer()
+    {
+        player.TakeDamage(knifeDamage);
     }
 }
