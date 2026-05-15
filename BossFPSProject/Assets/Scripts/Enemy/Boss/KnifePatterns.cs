@@ -16,6 +16,7 @@ public class KnifePatterns : MonoBehaviour
     [SerializeField] private BossMove boss;
     [SerializeField] private CapsuleCollider target;
     [SerializeField] private KnifeManager knifeManager;
+    [SerializeField] private GameObject explodeArea;
     private Rigidbody rb;
 
     [Header("Structs")]
@@ -43,6 +44,7 @@ public class KnifePatterns : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        knifeManager = GetComponentInParent<KnifeManager>();
         Transform bossOverall = transform.root;     // 여기 아래부터 KnifeManager로 이동
         boss = bossOverall.GetComponentInChildren<BossMove>();
 
@@ -94,11 +96,11 @@ public class KnifePatterns : MonoBehaviour
 
     private void UseKnifePattern()
     {
-        Debug.Log("짤패턴 시작");
+        Debug.Log(patternNum + "번 패턴");
         switch (patternNum)
         {
             case 1:             // 칼 냅다 집어 던지기
-                ThrowKnife(target);
+                // ThrowKnife(target);
                 break;
 
             case 2:             // 칼 집어 던져서 폭발
@@ -106,7 +108,7 @@ public class KnifePatterns : MonoBehaviour
                 break;
 
             case 3:
-                ThrowStone(target);
+                // ThrowStone(target);
                 break;
 
             default:
@@ -166,24 +168,30 @@ public class KnifePatterns : MonoBehaviour
         Vector3 dir = (targetPos - transform.position).normalized;
 
         rb.linearVelocity = dir * knifeSpeed;
-        StartCoroutine(Explode());
+        if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+        {
+            StartCoroutine(Explode());
+        }
     }
 
     private IEnumerator Explode()
     {
-        if (targetPos == transform.position)
-        {
-            yield return new WaitForSeconds(1f);
-        }
+        rb.linearVelocity = Vector3.zero;
+        GameObject explodeObj = Instantiate(explodeArea, transform.position, Quaternion.identity, transform);
+        explodeArea.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        explodeArea.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        explodeArea.SetActive(false);
     }
 
     private void ThrowStone(CapsuleCollider target)
     {
         // 땅으로 내려가서 돌을 가져온뒤 타겟의 수직방향에서 투석기처럼 모션하기
 
-        // rb.isKinematic = false;
+        rb.isKinematic = false;
 
-        // PerpendicularDir(target);
+        PerpendicularDir(target);
 
 
     }

@@ -18,6 +18,7 @@ public class KnifeManager : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] private float knifeDamage = 20;
+    [SerializeField] private float explodeDamage = 40;
     private int knifeNum;
 
     public List<Transform> SpawnPoints => spawnPoints;
@@ -46,5 +47,10 @@ public class KnifeManager : MonoBehaviour
     public void HitPlayer()
     {
         player.TakeDamage(knifeDamage);
+    }
+
+    public void ExplodePlayer()
+    {
+        player.ExplodeDamage(explodeDamage);
     }
 }

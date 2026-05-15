@@ -18,6 +18,7 @@ public class BossMove : MonoBehaviour
     // 보스의 이동과 플레이어 바라보기
     private Vector3 moveLocation;
     private Vector3 targetPos;
+    private Vector3 targetDir;
 
     [Header("Variables")]
 
@@ -33,6 +34,9 @@ public class BossMove : MonoBehaviour
     private float afterMoveTime;
 
     // 대쉬 관련
+
+    public Vector3 TargetPos => targetPos;
+    public Vector3 TargetDir => targetDir;
 
     void Awake()
     {
@@ -80,8 +84,8 @@ public class BossMove : MonoBehaviour
         targetPos = target.bounds.center;
         targetPos.y += 0.23f;
 
-        Vector3 dir = (targetPos - transform.position).normalized;
-        rb.transform.rotation = Quaternion.LookRotation(dir);
+        targetDir = (targetPos - transform.position).normalized;
+        rb.transform.rotation = Quaternion.LookRotation(targetDir);
     }
 
     private void MoveBoss()

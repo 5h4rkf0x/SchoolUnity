@@ -24,6 +24,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ExplodeDamage(float Damage)
+    {
+        health -= Damage;
+        Debug.Log(health);
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
     private void Die() // 샌즈처럼 검은화면에서 player가 분해되면 재밌긴 할듯 ㅋㅋ -------------- 씬전환기 넣어야될 위치
     {
         gameObject.SetActive(false);
