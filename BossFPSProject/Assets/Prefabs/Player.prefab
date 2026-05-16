@@ -576,6 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41ae0ce45896bf4e9d7cd69d01679c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  maxHealth: 100
+  health: 0
 --- !u!114 &7087831558273848031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +596,7 @@ MonoBehaviour:
   playerCam: {fileID: 605938120298812980}
   animator: {fileID: 6784549037538986632}
   weaponManager: {fileID: 0}
+  magazineManager: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -615,9 +618,9 @@ MonoBehaviour:
   playerBody: {fileID: 4042009851073297329}
   cameraPivot: {fileID: 7125424606142810594}
   lookAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  mouseSensitivity: 1
-  minPitch: -30
-  maxPitch: 60
+  mouseSensitivity: 0.2
+  minPitch: -80
+  maxPitch: 80
 --- !u!1 &1006850843249514315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,6 +1854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAliner
   mainCam: {fileID: 0}
+  magazineManager: {fileID: 0}
   modelYawOffset: 45
 --- !u!1 &4317881324773237913
 GameObject:
@@ -2285,7 +2289,7 @@ MonoBehaviour:
   ammoInfo: {fileID: 5524979227706581697}
   poolSize: 30
   maxAmmo: 30
-  reloadTime: 1.5
+  isReloading: 0
 --- !u!1 &5029249465008610745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3309,11 +3313,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
   cam: {fileID: 0}
-  fireTransform: {fileID: 938044625532193151}
+  fireTransform: {fileID: 2892643985839100366}
   magazine: {fileID: 8420264854535659512}
   hit: {fileID: 6923045389924538806}
   fireRate: 0.1
-  bulletSpeed: 40
+  bulletSpeed: 75
   bulletLifeTime: 3
   maxDistance: 100
 --- !u!1 &7924653209088751916
@@ -3801,6 +3805,10 @@ PrefabInstance:
       propertyPath: muzzlePoint
       value: 
       objectReference: {fileID: 938044625532193151}
+    - target: {fileID: 7355896890135539830, guid: 52c766129b117e549b7141f130ee3c79, type: 3}
+      propertyPath: magazineManager
+      value: 
+      objectReference: {fileID: 8420264854535659512}
     - target: {fileID: 7807954722887186731, guid: 52c766129b117e549b7141f130ee3c79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3846,6 +3854,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52c766129b117e549b7141f130ee3c79, type: 3}
+--- !u!4 &2892643985839100366 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3426489664620547775, guid: 52c766129b117e549b7141f130ee3c79, type: 3}
+  m_PrefabInstance: {fileID: 552230071597621105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7778428081216906842 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7807954722887186731, guid: 52c766129b117e549b7141f130ee3c79, type: 3}

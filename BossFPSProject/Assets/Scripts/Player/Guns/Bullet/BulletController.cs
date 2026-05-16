@@ -1,18 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private float bulletDamage;
+    [SerializeField] private Transform parent;
+    [SerializeField] private TrailRenderer trail;
 
     private WeaponManager weapon;
     private Coroutine lifeCoroutine;
+
+    [SerializeField] private float bulletDamage;
 
     private void Awake()
     {
         weapon = FindFirstObjectByType<WeaponManager>();
         rb = GetComponent<Rigidbody>();
+        trail = GetComponent<TrailRenderer>();
     }
     public void Init(MagazineManager magazineManager)
     {
@@ -36,11 +41,17 @@ public class BulletController : MonoBehaviour
             Boss.TakeDamage(bulletDamage);
             weapon.ShowHitUI();
         }
-        ReturnToMagazine();
+        transform.parent = parent;
+        trail.emitting = false;
+        trail.Clear();
+        gameObject.SetActive(false);
     }
 
-    public void Fire(Vector3 dir, float speed, float lifeTime)
+    public void Fire(Transform parent, Vector3 dir, float speed, float lifeTime)
     {
+        trail.emitting = true;
+        this.parent = parent;
+        transform.SetParent(null);
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
@@ -56,20 +67,9 @@ public class BulletController : MonoBehaviour
     private IEnumerator ReturnAfterTime(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        ReturnToMagazine();
-    }
-
-    private void ReturnToMagazine()
-    {
-        if (lifeCoroutine != null)
-        {
-            StopCoroutine(lifeCoroutine);
-            lifeCoroutine = null;
-        }
-
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
-        weapon.magazine.ReturnBullet(this);
+        transform.SetParent(parent);
+        trail.emitting = false;
+        trail.Clear();
+        gameObject.SetActive(false);
     }
 }

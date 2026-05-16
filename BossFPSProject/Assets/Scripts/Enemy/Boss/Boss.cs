@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,10 +6,14 @@ public class Boss: MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private BossHPBar hpUI;
+    [SerializeField] KnifeManager knifeManager;
+    [SerializeField] List<Transform> spawnPoints;
 
     [Header("Variables")]
     [SerializeField] private float health;
     [SerializeField] private float maxHealth;
+
+    public List<Transform> SpawnPoints => spawnPoints;
 
     private void Awake()
     {
@@ -18,6 +23,7 @@ public class Boss: MonoBehaviour
     private void Start()
     {
         hpUI.SetHP(health, maxHealth);
+        knifeManager.SpawnKnives(SpawnPoints);
     }
 
     public void TakeDamage(float bulletDamage)

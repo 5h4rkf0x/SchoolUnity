@@ -467,7 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2390393238692712363}
   m_Layer: 0
-  m_Name: KnifesLocations
+  m_Name: KnifeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1308,6 +1308,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
   hpUI: {fileID: 0}
+  knifeManager: {fileID: 4107580685355685568}
+  spawnPoints:
+  - {fileID: 2672121886271358893}
+  - {fileID: 4114264013960508212}
+  - {fileID: 507002515385399504}
+  - {fileID: 8575209574155636821}
+  - {fileID: 8118121570217245494}
+  - {fileID: 5715380881437322230}
   health: 0
   maxHealth: 1000
 --- !u!1 &3520393177745211298
@@ -2557,6 +2565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9090d34f692c043b48f7a701c0a15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossKnifeSpawn
+  player: {fileID: 0}
   knifePrefab: {fileID: 516479403383510042, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
   knifes:
   - {fileID: 0}
@@ -2565,13 +2574,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnPoints:
-  - {fileID: 2672121886271358893}
-  - {fileID: 4114264013960508212}
-  - {fileID: 507002515385399504}
-  - {fileID: 8575209574155636821}
-  - {fileID: 8118121570217245494}
-  - {fileID: 5715380881437322230}
+  knifeDamage: 20
+  explodeDamage: 40
 --- !u!1 &6625863352169103602
 GameObject:
   m_ObjectHideFlags: 0

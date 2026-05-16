@@ -48,7 +48,7 @@ public class WeaponManager: MonoBehaviour
         Vector3 shootDir = (targetPoint - fireTransform.position).normalized;
 
         bullet.transform.position = fireTransform.position;
-        bullet.Fire(shootDir, bulletSpeed, bulletLifeTime);
+        bullet.Fire(magazine.transform, shootDir, bulletSpeed, bulletLifeTime);
     }
 
     public void StartFire()

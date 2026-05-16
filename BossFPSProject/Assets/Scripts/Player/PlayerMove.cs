@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     // GunControl
     [SerializeField] WeaponManager weaponManager;
+    [SerializeField] private MagazineManager magazineManager;
 
     [Header("Structs")]
     // Jump
@@ -42,6 +43,7 @@ public class PlayerMove : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         weaponManager = GetComponentInChildren<WeaponManager>();
+        magazineManager = GetComponentInChildren<MagazineManager>();
         movecoll = GetComponent<CapsuleCollider>();
     }
 
@@ -132,9 +134,6 @@ public class PlayerMove : MonoBehaviour
         animator.SetFloat("DirY", moveInput.y);
 
         animator.SetBool("IsJumping", !isGrounded);
-        // if (weaponManager.isReloading)
-        // {
-        //     animator.SetBool("IsReloading", weaponManager.isReloading);
-        // }
+        animator.SetBool("IsReloading", magazineManager.IsReloading);
     }
 }

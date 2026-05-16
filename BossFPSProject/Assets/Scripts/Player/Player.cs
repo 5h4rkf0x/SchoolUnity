@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         health = maxHealth;
     }
 

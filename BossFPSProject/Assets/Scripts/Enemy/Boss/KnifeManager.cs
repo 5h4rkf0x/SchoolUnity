@@ -14,14 +14,10 @@ public class KnifeManager : MonoBehaviour
     [SerializeField] KnifePatterns knifePrefab;
     [SerializeField] List<GameObject> knifes;
 
-    [SerializeField] List<Transform> spawnPoints;
-
     [Header("Variables")]
     [SerializeField] private float knifeDamage = 20;
     [SerializeField] private float explodeDamage = 40;
     private int knifeNum;
-
-    public List<Transform> SpawnPoints => spawnPoints;
 
     private void Awake()
     {
@@ -31,12 +27,8 @@ public class KnifeManager : MonoBehaviour
             knifes[i] = knifePrefab.gameObject;
         }
     }
-    private void Start()
-    {
-        SpawnKnives();
-    }
 
-    private void SpawnKnives()
+    public void SpawnKnives(List<Transform> spawnPoints)
     {
         for (int i = 0; i < knifes.Count; i++)
         {

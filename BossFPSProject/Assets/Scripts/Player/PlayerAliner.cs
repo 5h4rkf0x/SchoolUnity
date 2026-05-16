@@ -3,12 +3,23 @@ using UnityEngine;
 public class PlayerAliner : MonoBehaviour
 {
     [SerializeField] private Camera mainCam;
+    [SerializeField] private MagazineManager magazineManager;
 
     [SerializeField] private float modelYawOffset = 45f;
 
+    private void Awake()
+    {
+        Transform playerOverall = transform.root;     // 여기 아래부터 KnifeManager로 이동
+        magazineManager = playerOverall.GetComponentInChildren<MagazineManager>();
+    }
     private void Update()
     {
         RotatePlayer();
+    }
+
+    public void ReloadAnimControll()
+    {
+        magazineManager.ReloadEndSet();
     }
 
     private void RotatePlayer()

@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using System.Net;
+using System.Collections.Generic;
 
 public class KnifePatterns : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class KnifePatterns : MonoBehaviour
 
     private float knifeSpeed = 20f;
     private float rotateSpeed = 240f;
+
 
     void Awake()
     {
@@ -123,6 +125,7 @@ public class KnifePatterns : MonoBehaviour
     {
 
     }
+
     // 패턴 준비 함수
     private void TargetDir(CapsuleCollider target)
     {
@@ -133,6 +136,7 @@ public class KnifePatterns : MonoBehaviour
         Vector3 dir = (targetPos - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(-90, 0, 0);
     }
+
     private void PerpendicularDir(CapsuleCollider target)
     {
         // 칼날의 방향 전환 - 타겟과 수직으로

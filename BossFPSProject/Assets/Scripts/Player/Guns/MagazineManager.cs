@@ -13,12 +13,12 @@ public class MagazineManager : MonoBehaviour
 
     [Header("Magazine")]
     [SerializeField] private int maxAmmo = 30;
-    [SerializeField] private float reloadTime = 1.5f;
+    private int index = 0;
 
     private int currentAmmo;
-    private bool isReloading;
+    [SerializeField] private bool isReloading;
 
-    private Queue<BulletController> bulletPool = new Queue<BulletController>();
+    private List<BulletController> bulletPool = new();
 
     public int CurrentAmmo => currentAmmo;
     public int MaxAmmo => maxAmmo;
@@ -31,10 +31,9 @@ public class MagazineManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             BulletController bullet = Instantiate(bulletPrefab, transform);
+            bulletPool.Add(bullet);
             bullet.Init(this);
             bullet.gameObject.SetActive(false);
-
-            bulletPool.Enqueue(bullet);
         }
     }
 
@@ -58,7 +57,11 @@ public class MagazineManager : MonoBehaviour
         RefreshAmmoInfo();
         if (bulletPool.Count > 0)
         {
-            BulletController bullet = bulletPool.Dequeue();
+            while (bulletPool[index].gameObject.activeSelf)
+            {
+                index = (index + 1) % bulletPool.Count;
+            }
+            BulletController bullet = bulletPool[index];
             bullet.gameObject.SetActive(true);
             return bullet;
         }
@@ -71,18 +74,11 @@ public class MagazineManager : MonoBehaviour
         return newBullet;
     }
 
-    public void ReturnBullet(BulletController bullet)
-    {
-        bullet.gameObject.SetActive(false);
-        bulletPool.Enqueue(bullet);
-    }
-
     public void Reload()
     {
         if (isReloading) return;
         if (currentAmmo == maxAmmo) return;
-
-        StartCoroutine(ReloadRoutine());
+        isReloading = true;
     }
 
     private void RefreshAmmoInfo()
@@ -90,14 +86,8 @@ public class MagazineManager : MonoBehaviour
         ammoInfo.text = currentAmmo + " / 30";
     }
 
-    private IEnumerator ReloadRoutine()
+    public void ReloadEndSet()
     {
-        isReloading = true;
-
-        Debug.Log("재장전 시작");
-
-        yield return new WaitForSeconds(reloadTime);
-
         currentAmmo = maxAmmo;
         RefreshAmmoInfo();
         isReloading = false;

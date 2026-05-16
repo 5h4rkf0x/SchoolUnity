@@ -8,8 +8,8 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private InputActionReference lookAction;
 
     [SerializeField] private float mouseSensitivity = 0.1f;
-    [SerializeField] private float minPitch = -30f;
-    [SerializeField] private float maxPitch = 60f;
+    [SerializeField] private float minPitch = -80f;
+    [SerializeField] private float maxPitch = 80f;
 
     private float pitch;
 

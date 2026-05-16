@@ -131,10 +131,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossOnAir
       objectReference: {fileID: 0}
-    - target: {fileID: 3503779893274198476, guid: d548bb822342b234994d9a44107da767, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5173425162983955283, guid: d548bb822342b234994d9a44107da767, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
