@@ -4,11 +4,7 @@ public class BossMove : MonoBehaviour
 {
     [Header("Components")]
     // 보스 자기자신 관련
-    [SerializeField] private Rigidbody rb;
-
-    // 플레이어 관련
-    [SerializeField] public PlayerMove player;
-    [SerializeField] private CapsuleCollider target;
+    [SerializeField] private Boss boss;
 
     [Header("Structs")]
     // 보스의 월드 범위 밖으로 나가는거 제한
@@ -17,8 +13,6 @@ public class BossMove : MonoBehaviour
 
     // 보스의 이동과 플레이어 바라보기
     private Vector3 moveLocation;
-    private Vector3 targetPos;
-    private Vector3 targetDir;
 
     [Header("Variables")]
 
@@ -35,25 +29,15 @@ public class BossMove : MonoBehaviour
 
     // 대쉬 관련
 
-    public Vector3 TargetPos => targetPos;
-    public Vector3 TargetDir => targetDir;
-
     void Awake()
     {
-        rb = GetComponentInParent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
         nextMoveTime = Random.Range(minMoveTime, maxMoveTime);
-    }
-
-    private void Start()
-    {
-        target = player.Movecoll;
     }
 
     void Update() // FixedUpdate에서 관리중인 Boss의 움직임 함수를, Update에서 하는 것이 더 나은가?
     {
         afterMoveTime += Time.deltaTime;
-        LookPlayer(target);
+        LookPlayer(boss.TargetPos);
     }
 
     void FixedUpdate()
@@ -64,7 +48,7 @@ public class BossMove : MonoBehaviour
 
             if (distance <= 0.2f)
             {
-                rb.linearVelocity = Vector3.zero;
+                boss.rb.linearVelocity = Vector3.zero;
                 isMoving = false;
             }
         }
@@ -77,27 +61,14 @@ public class BossMove : MonoBehaviour
         }
     }
 
-    private void LookPlayer(CapsuleCollider target)
+    private void LookPlayer(Vector3 targetPos)
     {
         // 보스가 플레이어를 쳐다볼 수 있도록
 
-        targetPos = target.bounds.center;
-        targetPos.y += 0.23f;
-
-        targetDir = (targetPos - transform.position).normalized;
-        rb.transform.rotation = Quaternion.LookRotation(targetDir);
+        Vector3 targetDir = (targetPos - transform.position).normalized;
+        boss.rb.transform.rotation = Quaternion.LookRotation(targetDir);
     }
 
-    private void MoveBoss()
-    {
-        // 랜덤 구체 범위 내에서 보스가 이동함 -> 전체 범위의 지정 필요
-        Debug.Log("보스가 움직인다!");
-        isMoving = true;
-        SetMoveLocation();
-
-        Vector3 dir = (moveLocation - transform.position).normalized;
-        rb.linearVelocity = dir * moveSpeed;
-    }
     private void SetMoveLocation()
     {
         Vector3 random = Random.insideUnitSphere * moveArea;
@@ -109,6 +80,17 @@ public class BossMove : MonoBehaviour
         moveLocation.z = Mathf.Clamp(moveLocation.z, minLimit.z, maxLimit.z);
     }
 
+    private void MoveBoss()
+    {
+        // 랜덤 구체 범위 내에서 보스가 이동함 -> 전체 범위의 지정 필요
+        Debug.Log("보스가 움직인다!");
+        isMoving = true;
+        SetMoveLocation();
+
+        Vector3 dir = (moveLocation - transform.position).normalized;
+        boss.rb.linearVelocity = dir * moveSpeed;
+    }
+
     // Patterns
 
     private void DashToPlayer(CapsuleCollider target)
@@ -118,7 +100,6 @@ public class BossMove : MonoBehaviour
     private void FloorBombAttack(CapsuleCollider target)
     {
         // 지형 원형으로 랜덤하게 파괴 생성
-
 
     }
 }

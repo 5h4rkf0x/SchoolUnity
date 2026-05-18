@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     public void ExplodeDamage(float Damage)
     {
         health -= Damage;
-        Debug.Log(health);
+        Debug.Log("플레이어의 체력 : " + health);
         if (health <= 0)
         {
             Die();

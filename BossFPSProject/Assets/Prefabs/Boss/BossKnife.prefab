@@ -188,12 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4091ead8924bbc74389754196195aeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnifePatterns
-  boss: {fileID: 0}
-  target: {fileID: 0}
   knifeManager: {fileID: 0}
-  explodeArea: {fileID: 3422466828121323249, guid: 9a82a78a05e834147a1302a34e90cf89, type: 3}
-  minPatternTime: 2
-  maxPatternTime: 5
+  explodeArea: {fileID: 7768557790460368633, guid: 9a82a78a05e834147a1302a34e90cf89, type: 3}
 --- !u!1 &7969171823553719340
 GameObject:
   m_ObjectHideFlags: 0

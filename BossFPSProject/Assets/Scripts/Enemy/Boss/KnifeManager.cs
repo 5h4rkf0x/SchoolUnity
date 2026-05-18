@@ -10,30 +10,125 @@ public class KnifeManager : MonoBehaviour
 
 
     [Header("Components")]
-    [SerializeField] Player player;
-    [SerializeField] KnifePatterns knifePrefab;
-    [SerializeField] List<GameObject> knifes;
+    [SerializeField] private Boss boss;
+
+    [SerializeField] private Player player;
+
+    [SerializeField] private KnifePatterns knifePrefab;
+    [SerializeField] private List<KnifePatterns> knifePools;
 
     [Header("Variables")]
+    private int count = 6;
+    // [SerializeField] private int index = 0;
+
     [SerializeField] private float knifeDamage = 20;
     [SerializeField] private float explodeDamage = 40;
-    private int knifeNum;
+
+    [SerializeField] private float minPatternTime = 2f;
+    [SerializeField] private float maxPatternTime = 5f;
+    [SerializeField] private int maxPatternNum = 3;
+
+    private float knifeSpeed = 20f;
+    private float rotateSpeed = 240f;
+
+    [SerializeField] private List<int> patternNum;
+    [SerializeField] private List<float> nextPatternTime;
+    [SerializeField] private List<float> afterPatternTime;
+
+    public float KnifeSpeed => knifeSpeed;
+    public float RotationSpeed => rotateSpeed;
 
     private void Awake()
     {
+        boss = GetComponentInParent<Boss>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+    }
+    private void Start()
+    {
         for (int i = 0; i < 6; i++)
         {
-            knifes[i] = knifePrefab.gameObject;
+            SetNextPatternInfo(i);
+        }
+        if (boss == null)
+        {
+            Debug.LogWarning("boss가 할당되지 않음!!!!!");
         }
     }
 
-    public void SpawnKnives(List<Transform> spawnPoints)
+    private void Update()   // KnifeManager로 이동
     {
-        for (int i = 0; i < knifes.Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            Instantiate(knifes[i], spawnPoints[i].position, Quaternion.identity, transform);
+            afterPatternTime[i] += Time.deltaTime;
+
+            if (afterPatternTime[i] >= nextPatternTime[i])
+            {
+                afterPatternTime[i] = 0f;
+                SetNextPatternInfo(i);
+                UseKnifePattern(i, patternNum[i]);
+            }
         }
+    }
+
+    public void SpawnKnives(List<Transform> knifeSpawnPoints)
+    {
+        for (int i = 0; i < knifeSpawnPoints.Count; i++)
+        {
+            KnifePatterns instance = Instantiate(knifePrefab, knifeSpawnPoints[i].position, Quaternion.identity, transform);
+            knifePools.Add(instance);
+            knifePools[i].knifeID = i;
+            SetNextPatternInfo(i);
+        }
+    }
+    public void ResetKnife(int knifeNum)
+    {
+        knifePools[knifeNum].rb.linearVelocity = Vector3.zero;
+        knifePools[knifeNum].rb.angularVelocity = Vector3.zero;
+        knifePools[knifeNum].transform.position = boss.KnifeSpawnPoint[knifeNum].transform.position;
+        knifePools[knifeNum].transform.rotation = boss.KnifeSpawnPoint[knifeNum].transform.rotation;
+        knifePools[knifeNum].rb.isKinematic = true;
+    }
+
+    private void SetNextPatternInfo(int knifeNum)
+    {
+        nextPatternTime[knifeNum] = Random.Range(minPatternTime, maxPatternTime);
+        patternNum[knifeNum] = Random.Range(1, maxPatternNum + 1);
+    }
+    private void UseKnifePattern(int knifeNum, int patternNum)
+    {
+        if (!CheckKnifeList(knifeNum))
+        {
+            Debug.Log("패턴 무시됨!");
+            return;
+        }
+        Debug.Log("\n" + knifeNum + "번째 칼\n" + patternNum + "번 패턴");
+        switch (patternNum)
+        {
+            case 1:             // 칼 냅다 집어 던지기
+                knifePools[knifeNum].ThrowKnife(boss.KnifeDir[knifeNum]);
+                break;
+
+            case 2:             // 칼 집어 던져서 폭발
+                knifePools[knifeNum].BombAttack(boss.TargetPos, boss.KnifeDir[knifeNum]);
+                break;
+
+            case 3:
+                // knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    private bool CheckKnifeList(int knifeNum)
+    {
+        if (knifePools[knifeNum].gameObject.activeSelf)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void HitPlayer()
