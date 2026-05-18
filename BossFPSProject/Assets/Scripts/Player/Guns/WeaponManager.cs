@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,7 +13,7 @@ public class WeaponManager: MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Transform fireTransform;
     [SerializeField] public MagazineManager magazine;
-    [SerializeField] private GameObject hit;
+    [SerializeField] private GameObject hitMarker;
 
     [SerializeField] private float fireRate = 0.1f;
     [SerializeField] private float bulletSpeed = 40f;
@@ -19,6 +21,13 @@ public class WeaponManager: MonoBehaviour
     [SerializeField] private float maxDistance = 100f;
 
     private Coroutine fireCoroutine;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+        if (cam == null) Debug.LogWarning("playerAliner.cam == null");
+        hitMarker = GameObject.Find("GunUI").transform.Find("HitMarker").gameObject;
+    }
 
     public void Reload()
     {
@@ -86,8 +95,8 @@ public class WeaponManager: MonoBehaviour
 
     private IEnumerator OpenHitUI()
     {
-        hit.SetActive(true);
+        hitMarker.SetActive(true);
         yield return new WaitForSeconds(0.3f);
-        hit.SetActive(false);
+        hitMarker.SetActive(false);
     }
 }

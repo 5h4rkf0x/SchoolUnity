@@ -52,10 +52,6 @@ public class KnifeManager : MonoBehaviour
         {
             SetNextPatternInfo(i);
         }
-        if (boss == null)
-        {
-            Debug.LogWarning("boss가 할당되지 않음!!!!!");
-        }
     }
 
     private void Update()   // KnifeManager로 이동
@@ -86,11 +82,15 @@ public class KnifeManager : MonoBehaviour
 
     public void ResetKnife(int knifeID)
     {
-        knifePools[knifeID].rb.linearVelocity = Vector3.zero;
-        knifePools[knifeID].rb.angularVelocity = Vector3.zero;
-        knifePools[knifeID].transform.position = boss.KnifeSpawnPoint[knifeID].transform.position;
-        knifePools[knifeID].transform.rotation = boss.KnifeSpawnPoint[knifeID].transform.rotation;
-        knifePools[knifeID].rb.isKinematic = true;
+        KnifePatterns knife = knifePools[knifeID];
+
+        knife.transform.SetParent(transform);
+
+        knife.rb.linearVelocity = Vector3.zero;
+        knife.rb.angularVelocity = Vector3.zero;
+        knife.transform.position = boss.KnifeSpawnPoint[knifeID].position;
+        knife.transform.rotation = boss.KnifeSpawnPoint[knifeID].rotation;
+        knife.rb.isKinematic = true;
     }
 
     public void StartReloadKnife(int knifeID)
@@ -111,16 +111,12 @@ public class KnifeManager : MonoBehaviour
     }
     private void UseKnifePattern(int knifeNum, int patternNum)
     {
-        if (!CheckKnifeList(knifeNum))
-        {
-            Debug.Log("패턴 무시됨!");
-            return;
-        }
-        Debug.Log("\n" + knifeNum + "번째 칼\n" + patternNum + "번 패턴");
+        if (!CheckKnifeList(knifeNum)) return;
+
         switch (patternNum)
         {
             case 1:             // 칼 냅다 집어 던지기
-                knifePools[knifeNum].ThrowKnife(boss.KnifeDir[knifeNum]);
+                // knifePools[knifeNum].ThrowKnife(boss.KnifeDir[knifeNum]);
                 break;
 
             case 2:             // 칼 집어 던져서 폭발
@@ -128,7 +124,7 @@ public class KnifeManager : MonoBehaviour
                 break;
 
             case 3:
-                knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
+                // knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
                 break;
 
             default:

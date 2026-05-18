@@ -10,10 +10,11 @@ public class PlayerMove : MonoBehaviour
     [Header("Components")]
     // Move
     [SerializeField] private CapsuleCollider movecoll;
-    [SerializeField] private Rigidbody rigid;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Transform playerCam;
-    [SerializeField] private Animator animator;
+    [SerializeField] private PlayerAnimation playerAnimation;
+
 
     // GunControl
     [SerializeField] WeaponManager weaponManager;
@@ -41,15 +42,17 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
+        playerAnimation = GetComponentInChildren<PlayerAnimation>();
         weaponManager = GetComponentInChildren<WeaponManager>();
         magazineManager = GetComponentInChildren<MagazineManager>();
         movecoll = GetComponent<CapsuleCollider>();
+        playerInput.camera = Camera.main;
     }
 
     private void Update()
     {
-        AnimationControl();
+        playerAnimation.AnimationControl(rb, sprintSpeed, moveInput, isGrounded);
     }
 
     private void FixedUpdate()
@@ -77,9 +80,9 @@ public class PlayerMove : MonoBehaviour
 
         if (isGrounded)
         {
-            rigid.linearVelocity = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
@@ -117,23 +120,9 @@ public class PlayerMove : MonoBehaviour
 
         float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
 
-        Vector3 velocity = rigid.linearVelocity;
+        Vector3 velocity = rb.linearVelocity;
         velocity.x = moveDir.x * currentSpeed;
         velocity.z = moveDir.z * currentSpeed;
-        rigid.linearVelocity = velocity;
-    }
-
-    private void AnimationControl()
-    {
-        Vector3 vector = new Vector3(rigid.linearVelocity.x, 0f, rigid.linearVelocity.z);
-        float Velocity= vector.magnitude / sprintSpeed;
-        Velocity = Mathf.Clamp01(Velocity);
-
-        animator.SetFloat("Velocity", Velocity);
-        animator.SetFloat("DirX", moveInput.x);
-        animator.SetFloat("DirY", moveInput.y);
-
-        animator.SetBool("IsJumping", !isGrounded);
-        animator.SetBool("IsReloading", magazineManager.IsReloading);
+        rb.linearVelocity = velocity;
     }
 }

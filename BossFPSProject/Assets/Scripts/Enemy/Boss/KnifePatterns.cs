@@ -84,6 +84,7 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 직접 날아가 공격 - 회전하면서 날아가는것도 좋을듯?
         rb.isKinematic = false;
+        transform.SetParent(null);
 
         TargetDir(dir);
 
@@ -95,6 +96,7 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 날아가 1초 정도 뒤에 폭발 ----- 시전 전의 타겟의 위치에 도달시 정지 후 폭발
         rb.isKinematic = false;
+        transform.SetParent(null);
         explosiveKnife = true;
 
         TargetDir(dir);
@@ -133,6 +135,7 @@ public class KnifePatterns : MonoBehaviour
         // 땅으로 내려가서 돌을 가져온뒤 타겟의 수직방향에서 투석기처럼 모션하기
 
         rb.isKinematic = false;
+        transform.SetParent(null);
 
         PerpendicularDir(dir);
 

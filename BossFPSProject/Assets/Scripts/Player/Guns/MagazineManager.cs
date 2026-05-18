@@ -26,6 +26,7 @@ public class MagazineManager : MonoBehaviour
 
     private void Awake()
     {
+        ammoInfo = GameObject.FindWithTag("GunUI").GetComponentInChildren<TextMeshProUGUI>();
         currentAmmo = maxAmmo;
 
         for (int i = 0; i < poolSize; i++)
