@@ -2550,6 +2550,7 @@ MonoBehaviour:
   minPatternTime: 2
   maxPatternTime: 5
   maxPatternNum: 3
+  knifeReloadTime: 0
   patternNum: 000000000000000000000000000000000000000000000000
   nextPatternTime:
   - 0

@@ -28,6 +28,7 @@ public class KnifePatterns : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] public int knifeID;
+    private bool explosiveKnife = false;
 
     void Awake()
     {
@@ -49,7 +50,10 @@ public class KnifePatterns : MonoBehaviour
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
         {
+            if (explosiveKnife) return;
+
             knifeManager.ResetKnife(knifeID);
+            knifeManager.StartReloadKnife(knifeID);
             gameObject.SetActive(false);
         }
     }
@@ -87,18 +91,19 @@ public class KnifePatterns : MonoBehaviour
         rb.angularVelocity = transform.forward * knifeManager.RotationSpeed;
     }
 
-    public void BombAttack(Vector3 targetPos, Vector3 dir)
+    public void BombAttack(Vector3 startPos, Vector3 targetPos, Vector3 dir)
     {
         // 타겟에게 날아가 1초 정도 뒤에 폭발 ----- 시전 전의 타겟의 위치에 도달시 정지 후 폭발
         rb.isKinematic = false;
+        explosiveKnife = true;
 
         TargetDir(dir);
 
         rb.linearVelocity = dir * knifeManager.KnifeSpeed;
-        StartCoroutine(Explode(targetPos));
+        StartCoroutine(Explode(startPos, targetPos));
     }
 
-    private IEnumerator Explode(Vector3 targetPos)
+    private IEnumerator Explode(Vector3 startPos, Vector3 targetPos)
     {
         float timer = 0;
         float lifeTime = 3;
@@ -106,17 +111,17 @@ public class KnifePatterns : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+            if (Vector3.Distance(startPos, targetPos) <= knifeManager.KnifeSpeed * timer)
             {
                 rb.linearVelocity = Vector3.zero;
-                if (explodeObj == null) explodeObj = Instantiate(explodeObj, transform.position, Quaternion.identity, gameObject.transform);
                 explodeObj.SetActive(false);
                 yield return new WaitForSeconds(1f);
-                Debug.Log("펑!!!!!!!!!");
                 explodeObj.SetActive(true);
                 yield return new WaitForSeconds(1f);
                 explodeObj.SetActive(false);
+                explosiveKnife = false;
                 knifeManager.ResetKnife(knifeID);
+                knifeManager.StartReloadKnife(knifeID);
                 gameObject.SetActive(false);
             }
             yield return null;

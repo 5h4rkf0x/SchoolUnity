@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossHPBar : MonoBehaviour
+public class PlayerHpBar: MonoBehaviour
 {
     [SerializeField] private Slider hpSlider;
 

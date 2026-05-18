@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class KnifeManager : MonoBehaviour
 {
@@ -30,6 +32,7 @@ public class KnifeManager : MonoBehaviour
 
     private float knifeSpeed = 20f;
     private float rotateSpeed = 240f;
+    [SerializeField] private float knifeReloadTime = 4;
 
     [SerializeField] private List<int> patternNum;
     [SerializeField] private List<float> nextPatternTime;
@@ -80,13 +83,25 @@ public class KnifeManager : MonoBehaviour
             SetNextPatternInfo(i);
         }
     }
-    public void ResetKnife(int knifeNum)
+
+    public void ResetKnife(int knifeID)
     {
-        knifePools[knifeNum].rb.linearVelocity = Vector3.zero;
-        knifePools[knifeNum].rb.angularVelocity = Vector3.zero;
-        knifePools[knifeNum].transform.position = boss.KnifeSpawnPoint[knifeNum].transform.position;
-        knifePools[knifeNum].transform.rotation = boss.KnifeSpawnPoint[knifeNum].transform.rotation;
-        knifePools[knifeNum].rb.isKinematic = true;
+        knifePools[knifeID].rb.linearVelocity = Vector3.zero;
+        knifePools[knifeID].rb.angularVelocity = Vector3.zero;
+        knifePools[knifeID].transform.position = boss.KnifeSpawnPoint[knifeID].transform.position;
+        knifePools[knifeID].transform.rotation = boss.KnifeSpawnPoint[knifeID].transform.rotation;
+        knifePools[knifeID].rb.isKinematic = true;
+    }
+
+    public void StartReloadKnife(int knifeID)
+    {
+        StartCoroutine(ReloadKnife(knifeID));
+    }
+
+    public IEnumerator ReloadKnife(int knifeID)
+    {
+        yield return new WaitForSeconds(knifeReloadTime);
+        knifePools[knifeID].gameObject.SetActive(true);
     }
 
     private void SetNextPatternInfo(int knifeNum)
@@ -109,11 +124,11 @@ public class KnifeManager : MonoBehaviour
                 break;
 
             case 2:             // Ä® Áý¾î ´øÁ®¼­ Æø¹ß
-                knifePools[knifeNum].BombAttack(boss.TargetPos, boss.KnifeDir[knifeNum]);
+                knifePools[knifeNum].BombAttack(boss.KnifeSpawnPoint[knifeNum].position, boss.TargetPos, boss.KnifeDir[knifeNum]);
                 break;
 
             case 3:
-                // knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
+                knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
                 break;
 
             default:

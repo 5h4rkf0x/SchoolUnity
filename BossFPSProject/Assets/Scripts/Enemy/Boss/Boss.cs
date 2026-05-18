@@ -9,7 +9,7 @@ public class Boss: MonoBehaviour
 
     // 보스 관련
     [SerializeField] public Rigidbody rb;
-    [SerializeField] private BossHPBar hpUI;
+    [SerializeField] private BossHpBar hpUI;
 
     // 보스 칼날 관련
     [SerializeField] KnifeManager knifeManager;
@@ -37,7 +37,7 @@ public class Boss: MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
-        hpUI = FindFirstObjectByType<BossHPBar>();
+        hpUI = FindFirstObjectByType<BossHpBar>();
         health = maxHealth;
         knifeManager.SpawnKnives(KnifeSpawnPoint);
     }

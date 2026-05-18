@@ -2,36 +2,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private PlayerHpBar hpUI;
+
     [SerializeField] private float maxHealth = 100;
     [SerializeField] private float health;
 
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        hpUI = FindFirstObjectByType<PlayerHpBar>();
         health = maxHealth;
+    }
+
+    private void Start()
+    {
+        hpUI.SetHP(health, maxHealth);
     }
 
     public void TakeDamage(float Damage)
     {
         health -= Damage;
-        // hpUI.SetHP(health, maxHealth);
+        hpUI.SetHP(health, maxHealth);
 
         Debug.Log(health);
 
         if (health <= 0)
         {
             Die();
-            // hpUI.CloseBossBar();
         }
     }
 
     public void ExplodeDamage(float Damage)
     {
         health -= Damage;
-        Debug.Log("플레이어의 체력 : " + health);
+        hpUI.SetHP(health, maxHealth);
         if (health <= 0)
         {
             Die();
+            hpUI.CloseBossBar();
         }
     }
 
