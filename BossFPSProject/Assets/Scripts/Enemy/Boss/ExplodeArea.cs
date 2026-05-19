@@ -8,6 +8,7 @@ public class ExplodeArea : MonoBehaviour
 
     private void Awake()
     {
+        explodeArea = GetComponent<SphereCollider>();
         knife = GetComponentInParent<KnifePatterns>();
     }
     private void OnTriggerEnter(Collider other)

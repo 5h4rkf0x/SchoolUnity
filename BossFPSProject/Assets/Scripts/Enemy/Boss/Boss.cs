@@ -16,7 +16,8 @@ public class Boss: MonoBehaviour
     [SerializeField] private List<Transform> knifeSpawnPoint;
 
     // 플레이어 관련
-    [SerializeField] public PlayerMove player;
+    [SerializeField] public PlayerMove playerMove;
+    [SerializeField] public Player player;
     [SerializeField] private CapsuleCollider target;
 
     [Header("Structs")]
@@ -36,7 +37,8 @@ public class Boss: MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
+        playerMove = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         hpUI = FindFirstObjectByType<BossHpBar>();
         health = maxHealth;
         knifeManager.SpawnKnives(KnifeSpawnPoint);
@@ -44,7 +46,7 @@ public class Boss: MonoBehaviour
 
     private void Start()
     {
-        target = player.Movecoll;
+        target = playerMove.Movecoll;
         hpUI.SetHP(health, maxHealth);
     }
 

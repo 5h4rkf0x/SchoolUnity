@@ -14,8 +14,6 @@ public class KnifeManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Boss boss;
 
-    [SerializeField] private Player player;
-
     [SerializeField] private KnifePatterns knifePrefab;
     [SerializeField] private List<KnifePatterns> knifePools;
 
@@ -44,7 +42,6 @@ public class KnifeManager : MonoBehaviour
     private void Awake()
     {
         boss = GetComponentInParent<Boss>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
     private void Start()
     {
@@ -144,11 +141,11 @@ public class KnifeManager : MonoBehaviour
 
     public void HitPlayer()
     {
-        player.TakeDamage(knifeDamage);
+        boss.player.TakeDamage(knifeDamage);
     }
 
     public void ExplodePlayer()
     {
-        player.ExplodeDamage(explodeDamage);
+        boss.player.ExplodeDamage(explodeDamage);
     }
 }

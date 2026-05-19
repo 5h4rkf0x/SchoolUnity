@@ -189,7 +189,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnifePatterns
   knifeManager: {fileID: 0}
-  explodeArea: {fileID: 7768557790460368633, guid: 9a82a78a05e834147a1302a34e90cf89, type: 3}
+  explodeArea: {fileID: 4278995288167461343, guid: 442315ef0302ce346a90d5b81d7f20eb, type: 3}
+  rb: {fileID: 0}
+  bossTransform: {fileID: 0}
+  spawnPos: {x: 0, y: 0, z: 0}
+  spawnRot: {x: 0, y: 0, z: 0, w: 0}
+  knifeID: 0
 --- !u!1 &7969171823553719340
 GameObject:
   m_ObjectHideFlags: 0

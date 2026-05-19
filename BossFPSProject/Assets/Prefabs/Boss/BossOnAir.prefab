@@ -959,6 +959,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8878905152844670711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2444434243358227405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1342113136397838963}
+  - component: {fileID: 2463940558858971392}
+  m_Layer: 0
+  m_Name: BossExplodeAreaManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1342113136397838963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444434243358227405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5173425162983955283}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2463940558858971392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444434243358227405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69db37995bb8db447af1c9d9159ade4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossExplodeAreaManager
+  boss: {fileID: 0}
+  explodeAreaLocations:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  Warning: {fileID: 1667504834687031756, guid: 84961f1a3c6c4194cbc4678b4496dfe1, type: 3}
+  bossExplodeWarningPools: []
+  bossExplodeArea: {fileID: 7387272205129210517, guid: 064b12baed3a2ec469fe363100c28ed7, type: 3}
+  explodeAreaPools: []
+  minAreaPoint: {x: -20, y: -20}
+  maxAreaPoint: {x: 20, y: 20}
+  count: 10
+  explodeDamage: 30
 --- !u!1 &2614544280024785110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1330,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1830334083044874412}
+  - {fileID: 1342113136397838963}
   - {fileID: 2390393238692712363}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -1318,6 +1383,7 @@ MonoBehaviour:
   - {fileID: 8575209574155636821}
   - {fileID: 8118121570217245494}
   - {fileID: 5715380881437322230}
+  playerMove: {fileID: 0}
   player: {fileID: 0}
   target: {fileID: 0}
   knifeDir:
@@ -1360,6 +1426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c934c7fdfdd17547b90da4a3d94bc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPatern
+  bossExplodeAreaManager: {fileID: 0}
+  minPatternTime: 5
+  maxPatternTime: 10
 --- !u!1 &3520393177745211298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,7 +2611,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossKnifeSpawn
   boss: {fileID: 0}
-  player: {fileID: 0}
   knifePrefab: {fileID: 516479403383510042, guid: 50673bf35c227e740b6a87074f3fb936, type: 3}
   knifePools: []
   knifeDamage: 20
