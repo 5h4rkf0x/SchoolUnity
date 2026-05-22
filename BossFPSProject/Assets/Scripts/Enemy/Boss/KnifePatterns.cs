@@ -15,6 +15,7 @@ public class KnifePatterns : MonoBehaviour
     [Header("Components")]
     // 필요한 클래스 객체 불러오기
     [SerializeField] private KnifeManager knifeManager;
+    [SerializeField] private BossExplodeAreaManager bossExplodeAreaManager;
     [SerializeField] private ExplodeArea explodeArea;
     GameObject explodeObj;
     public Rigidbody rb;
@@ -34,6 +35,8 @@ public class KnifePatterns : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         knifeManager = GetComponentInParent<KnifeManager>();
+        Transform temp = gameObject.transform.root;
+        bossExplodeAreaManager = temp.GetComponentInChildren<BossExplodeAreaManager>();
     }
 
     private void Start()
@@ -65,18 +68,6 @@ public class KnifePatterns : MonoBehaviour
     {
         // 칼날의 방향 전환 - 타겟 방향으로
         transform.rotation = Quaternion.LookRotation(dir) * Quaternion.Euler(-90, 0, 0);
-    }
-
-    private void PerpendicularDir(Vector3 dir)
-    {
-        // 칼날의 방향 전환 - 타겟과 수직으로
-        dir.y = 0f;
-
-        if (dir == Vector3.zero) return;
-
-        Vector3 sideDir = Vector3.Cross(Vector3.up, dir.normalized);
-
-        transform.rotation = Quaternion.LookRotation(sideDir);
     }
 
     // 패턴 실행 함수
@@ -119,6 +110,7 @@ public class KnifePatterns : MonoBehaviour
                 explodeObj.SetActive(false);
                 yield return new WaitForSeconds(1f);
                 explodeObj.SetActive(true);
+                bossExplodeAreaManager.ExplodeSound();
                 yield return new WaitForSeconds(1f);
                 explodeObj.SetActive(false);
                 explosiveKnife = false;
@@ -129,19 +121,6 @@ public class KnifePatterns : MonoBehaviour
             yield return null;
         }
     }
-
-    public void ThrowStone(Vector3 dir)
-    {
-        // 땅으로 내려가서 돌을 가져온뒤 타겟의 수직방향에서 투석기처럼 모션하기
-
-        rb.isKinematic = false;
-        transform.SetParent(null);
-
-        PerpendicularDir(dir);
-
-
-    }
-
     public void Explode()
     {
         Debug.Log("폭발 데미지 받음!!!@@@@@");

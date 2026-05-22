@@ -26,11 +26,11 @@ public class KnifeManager : MonoBehaviour
 
     [SerializeField] private float minPatternTime = 2f;
     [SerializeField] private float maxPatternTime = 5f;
-    [SerializeField] private int maxPatternNum = 3;
+    [SerializeField] private int maxPatternNum = 2;
 
     private float knifeSpeed = 20f;
     private float rotateSpeed = 240f;
-    [SerializeField] private float knifeReloadTime = 4;
+    [SerializeField] private float knifeReloadTime = 3;
 
     [SerializeField] private List<int> patternNum;
     [SerializeField] private List<float> nextPatternTime;
@@ -113,15 +113,11 @@ public class KnifeManager : MonoBehaviour
         switch (patternNum)
         {
             case 1:             // Ä® ³À´Ù Áý¾î ´øÁö±â
-                // knifePools[knifeNum].ThrowKnife(boss.KnifeDir[knifeNum]);
+                knifePools[knifeNum].ThrowKnife(boss.KnifeDir[knifeNum]);
                 break;
 
             case 2:             // Ä® Áý¾î ´øÁ®¼­ Æø¹ß
                 knifePools[knifeNum].BombAttack(boss.KnifeSpawnPoint[knifeNum].position, boss.TargetPos, boss.KnifeDir[knifeNum]);
-                break;
-
-            case 3:
-                // knifePools[knifeNum].ThrowStone(boss.KnifeDir[knifeNum]);
                 break;
 
             default:

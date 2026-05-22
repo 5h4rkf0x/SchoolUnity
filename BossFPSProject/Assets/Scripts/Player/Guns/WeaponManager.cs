@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -15,6 +16,13 @@ public class WeaponManager: MonoBehaviour
     [SerializeField] public MagazineManager magazine;
     [SerializeField] private GameObject hitMarker;
 
+    [Header("Effects")]
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private AudioClip fireClip;
+    [SerializeField] private AudioClip blankFireClip;
+    [SerializeField] private AudioClip reloadingClip;
+
+    private bool isBlankFireSoundPlayed = false;
     [SerializeField] private float fireRate = 0.1f;
     [SerializeField] private float bulletSpeed = 40f;
     [SerializeField] private float bulletLifeTime = 3f;
@@ -27,10 +35,12 @@ public class WeaponManager: MonoBehaviour
         cam = Camera.main;
         if (cam == null) Debug.LogWarning("playerAliner.cam == null");
         hitMarker = GameObject.Find("GunUI").transform.Find("HitMarker").gameObject;
+        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     public void Reload()
     {
+        AudioManager.instance.PlaySFX(reloadingClip);
         magazine.Reload();
     }
 
@@ -39,7 +49,14 @@ public class WeaponManager: MonoBehaviour
         BulletController bullet = magazine.GetBullet();
 
         if (bullet == null)
+        {
+            if (!isBlankFireSoundPlayed)
+            {
+                audioManager.PlaySFX(blankFireClip);
+                isBlankFireSoundPlayed = true;
+            }
             return;
+        }
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
@@ -57,6 +74,7 @@ public class WeaponManager: MonoBehaviour
         Vector3 shootDir = (targetPoint - fireTransform.position).normalized;
 
         bullet.transform.position = fireTransform.position;
+        AudioManager.instance.PlaySFX(fireClip);
         bullet.Fire(magazine.transform, shootDir, bulletSpeed, bulletLifeTime);
     }
 
@@ -74,6 +92,7 @@ public class WeaponManager: MonoBehaviour
     {
         if (fireCoroutine != null)
         {
+            isBlankFireSoundPlayed = false;
             StopCoroutine(fireCoroutine);
             fireCoroutine = null;
         }

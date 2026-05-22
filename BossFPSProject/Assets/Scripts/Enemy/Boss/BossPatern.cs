@@ -17,7 +17,7 @@ public class BossPatern : MonoBehaviour
 
     private void Update()
     {
-        afterPatternTime += Time.time;
+        afterPatternTime += Time.deltaTime;
 
         if (afterPatternTime >= nextPatternTime)
         {

@@ -6,8 +6,7 @@ using Unity.VisualScripting;
 public class BossExplodeAreaManager : MonoBehaviour
 {
     [SerializeField] private Boss boss;
-
-    [SerializeField] private List<Vector3> explodeAreaLocations;
+    [SerializeField] private GameObject tempLocation;
 
     // 주의표시
     [SerializeField] private GameObject Warning;
@@ -16,6 +15,10 @@ public class BossExplodeAreaManager : MonoBehaviour
     // 실제 폭발
     [SerializeField] private BossExplodeArea bossExplodeArea;
     [SerializeField] private List<BossExplodeArea> explodeAreaPools;
+
+    // 폭발 효과음
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private AudioClip explodeClip;
 
     [SerializeField] private Vector2 minAreaPoint;
     [SerializeField] private Vector2 maxAreaPoint;
@@ -26,14 +29,15 @@ public class BossExplodeAreaManager : MonoBehaviour
     private void Awake()
     {
         boss = GetComponentInParent<Boss>();
+        tempLocation = GameObject.Find("Temp");
 
         for (int i = 0; i < count; i++)
         {
-            BossExplodeArea tempExplodeAreas = Instantiate(bossExplodeArea, Vector3.zero, Quaternion.identity, gameObject.transform);
+            BossExplodeArea tempExplodeAreas = Instantiate(bossExplodeArea, Vector3.zero, Quaternion.identity, tempLocation.transform);
             explodeAreaPools.Add(tempExplodeAreas);
             explodeAreaPools[i].gameObject.SetActive(false);
 
-            GameObject tempWarningPools = Instantiate(Warning, Vector3.zero, Quaternion.identity, explodeAreaPools[i].gameObject.transform);
+            GameObject tempWarningPools = Instantiate(Warning, Vector3.zero, Quaternion.identity, tempLocation.transform);
             bossExplodeWarningPools.Add(tempWarningPools);
             bossExplodeWarningPools[i].gameObject.SetActive(false);
         }
@@ -54,13 +58,15 @@ public class BossExplodeAreaManager : MonoBehaviour
             tempExplodeArea.x = Random.Range(minAreaPoint.x, maxAreaPoint.x);
             tempExplodeArea.z = Random.Range(minAreaPoint.y, maxAreaPoint.y);
 
-            explodeAreaLocations[i] = tempExplodeArea;
+            explodeAreaPools[i].transform.position = tempExplodeArea;
+            bossExplodeWarningPools[i].transform.position = tempExplodeArea;
         }
         StartCoroutine(StartExplodePattern());
     }
 
     private IEnumerator StartExplodePattern()
     {
+        Debug.Log("폭발패턴 실행");
         for (int i = 0; i < count; i++)
         {
             bossExplodeWarningPools[i].SetActive(true);
@@ -71,11 +77,17 @@ public class BossExplodeAreaManager : MonoBehaviour
             bossExplodeWarningPools[i].SetActive(false);
             explodeAreaPools[i].gameObject.SetActive(true);
         }
+        ExplodeSound();
         yield return new WaitForSeconds(0.8f);
         for (int i = 0; i < count; i++)
         {
             explodeAreaPools[i].gameObject.SetActive(false);
         }
         yield break;
+    }
+
+    public void ExplodeSound()
+    {
+        AudioManager.instance.PlayExplode(explodeClip);
     }
 }

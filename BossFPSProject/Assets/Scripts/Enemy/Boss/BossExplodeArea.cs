@@ -9,7 +9,7 @@ public class BossExplodeArea : MonoBehaviour
     private void Awake()
     {
         bossExplodeArea = GetComponent<SphereCollider>();
-        bossExplodeAreaManager = GetComponentInParent<BossExplodeAreaManager>();
+        bossExplodeAreaManager = FindFirstObjectByType<BossExplodeAreaManager>();
     }
 
     private void OnTriggerEnter(Collider other)

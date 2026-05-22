@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 410288042008296275}
   - component: {fileID: 8587539863570137417}
   - component: {fileID: 6788541559626474018}
-  - component: {fileID: 6026270027457597213}
+  - component: {fileID: 8748761783655178397}
   - component: {fileID: 1201209989280813752}
   m_Layer: 6
   m_Name: LevelBase
@@ -63,7 +63,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7240282359380143430}
@@ -147,7 +147,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &6026270027457597213
+--- !u!65 &8748761783655178397
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

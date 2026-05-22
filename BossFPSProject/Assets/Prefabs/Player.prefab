@@ -487,10 +487,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   movecoll: {fileID: 0}
-  rigid: {fileID: 0}
+  rb: {fileID: 0}
   playerInput: {fileID: 1061956850250664084}
   playerCam: {fileID: 605938120298812980}
-  animator: {fileID: 6784549037538986632}
+  playerAnimation: {fileID: 0}
   weaponManager: {fileID: 0}
   magazineManager: {fileID: 0}
   groundLayer:
@@ -1677,6 +1677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAliner
   cam: {fileID: 0}
+  animator: {fileID: 0}
   magazineManager: {fileID: 0}
   modelYawOffset: 45
 --- !u!1 &4317881324773237913
@@ -2858,6 +2859,10 @@ MonoBehaviour:
   fireTransform: {fileID: 2892643985839100366}
   magazine: {fileID: 8420264854535659512}
   hitMarker: {fileID: 0}
+  audioManager: {fileID: 0}
+  fireClip: {fileID: 8300000, guid: 2b543fb5bf480fe44bfb2cf1020dc912, type: 3}
+  blankFireClip: {fileID: 8300000, guid: 4b67c1cf70f24dc479c0d208bd3ea49d, type: 3}
+  reloadingClip: {fileID: 8300000, guid: 00c3f4d69a620c944a954f4c2d3fb6ba, type: 3}
   fireRate: 0.1
   bulletSpeed: 75
   bulletLifeTime: 3
