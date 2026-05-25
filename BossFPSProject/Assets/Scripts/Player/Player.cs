@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxHealth = 100;
     [SerializeField] private float health;
 
+    public float Health => health;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Die() // 샌즈처럼 검은화면에서 player가 분해되면 재밌긴 할듯 ㅋㅋ -------------- 씬전환기 넣어야될 위치
+    private void Die() // 샌즈처럼 검은화면에서 player가 분해되면 재밌긴 할듯 ㅋㅋ
     {
         gameObject.SetActive(false);
     }

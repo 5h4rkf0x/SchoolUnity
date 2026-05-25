@@ -17,7 +17,6 @@ public class BossExplodeAreaManager : MonoBehaviour
     [SerializeField] private List<BossExplodeArea> explodeAreaPools;
 
     // Æø¹ß È¿°úÀ½
-    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip explodeClip;
 
     [SerializeField] private Vector2 minAreaPoint;

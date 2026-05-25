@@ -34,6 +34,8 @@ public class Boss: MonoBehaviour
     public Vector3 TargetPos => targetPos;
     public List<Vector3> KnifeDir => knifeDir;
 
+    public float Health => health;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

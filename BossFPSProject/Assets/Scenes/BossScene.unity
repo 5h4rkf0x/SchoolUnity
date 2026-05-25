@@ -684,7 +684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &791830408
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1580,7 +1580,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1532793501
 MonoBehaviour:
@@ -1595,14 +1595,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
   m_Material: {fileID: 2100000, guid: 87aba9cda2b811d44849f4a9d62a9879, type: 2}
-  m_Color: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: f965076fb39510b4ebf14e4e1120119c, type: 3}
+  m_Texture: {fileID: 2800000, guid: 56fd68c0b503d594c807f12c8620af69, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2031,8 +2031,9 @@ GameObject:
   - component: {fileID: 1643476978}
   - component: {fileID: 1643476977}
   - component: {fileID: 1643476976}
+  - component: {fileID: 1643476979}
   m_Layer: 0
-  m_Name: BossPlayBackground
+  m_Name: BossPlayManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2110,6 +2111,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1643476979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643476974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6fb5f56c5d22524faa115bfd700a175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossScene
+  boss: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &1698308955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2628,13 +2643,13 @@ SceneRoots:
   m_Roots:
   - {fileID: 1951256822}
   - {fileID: 1535691199}
+  - {fileID: 1643476978}
   - {fileID: 1296351027}
-  - {fileID: 791830411}
   - {fileID: 1698308959}
   - {fileID: 1087581949}
   - {fileID: 1604267751}
   - {fileID: 260117994}
   - {fileID: 948924075}
+  - {fileID: 791830411}
   - {fileID: 1095815042}
   - {fileID: 178457693}
-  - {fileID: 1643476978}

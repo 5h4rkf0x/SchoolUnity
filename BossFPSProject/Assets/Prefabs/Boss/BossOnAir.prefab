@@ -1107,11 +1107,10 @@ MonoBehaviour:
   bossExplodeWarningPools: []
   bossExplodeArea: {fileID: 7387272205129210517, guid: 064b12baed3a2ec469fe363100c28ed7, type: 3}
   explodeAreaPools: []
-  audioManager: {fileID: 0}
   explodeClip: {fileID: 8300000, guid: e1a4937fd3587e44cbb23ef7aa5bd55c, type: 3}
   minAreaPoint: {x: -15, y: -15}
   maxAreaPoint: {x: 15, y: 15}
-  count: 10
+  count: 17
   explodeDamage: 30
 --- !u!1 &2614544280024785110
 GameObject:
@@ -1517,8 +1516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPatern
   bossExplodeAreaManager: {fileID: 0}
-  minPatternTime: 5
-  maxPatternTime: 10
+  minPatternTime: 3
+  maxPatternTime: 8
 --- !u!1 &3520393177745211298
 GameObject:
   m_ObjectHideFlags: 0
