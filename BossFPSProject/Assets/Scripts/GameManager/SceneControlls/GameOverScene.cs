@@ -11,11 +11,13 @@ public class GameOverScene : MonoBehaviour
 
     public void BossStageScene()
     {
+        GameOverAudioManager.instance.PlayButtonClick();
         SceneManager.LoadScene("BossScene");
     }
     public void QuitGame()
     {
-        #if UNITY_EDITOR
+        GameOverAudioManager.instance.PlayButtonClick();
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
         Application.Quit();

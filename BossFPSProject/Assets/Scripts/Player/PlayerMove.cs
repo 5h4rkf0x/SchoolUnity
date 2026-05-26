@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Transform playerCam;
     [SerializeField] private PlayerAnimation playerAnimation;
+    [SerializeField] private AudioClip jumpClip;
 
 
     // GunControl
@@ -82,6 +83,7 @@ public class PlayerMove : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
+            AudioManager.instance.PlaySFX(jumpClip);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }

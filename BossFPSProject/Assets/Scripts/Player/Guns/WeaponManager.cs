@@ -17,7 +17,6 @@ public class WeaponManager: MonoBehaviour
     [SerializeField] private GameObject hitMarker;
 
     [Header("Effects")]
-    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioClip fireClip;
     [SerializeField] private AudioClip blankFireClip;
     [SerializeField] private AudioClip reloadingClip;
@@ -35,11 +34,12 @@ public class WeaponManager: MonoBehaviour
         cam = Camera.main;
         if (cam == null) Debug.LogWarning("playerAliner.cam == null");
         hitMarker = GameObject.Find("GunUI").transform.Find("HitMarker").gameObject;
-        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     public void Reload()
     {
+        if (magazine.IsReloading == true) return;
+        if (magazine.CurrentAmmo == magazine.MaxAmmo) return;
         AudioManager.instance.PlaySFX(reloadingClip);
         magazine.Reload();
     }
@@ -52,7 +52,7 @@ public class WeaponManager: MonoBehaviour
         {
             if (!isBlankFireSoundPlayed)
             {
-                audioManager.PlaySFX(blankFireClip);
+                AudioManager.instance.PlaySFX(blankFireClip);
                 isBlankFireSoundPlayed = true;
             }
             return;

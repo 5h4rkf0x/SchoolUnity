@@ -11,7 +11,7 @@ public class EndingScene: MonoBehaviour
 
     public void BossStageScene()
     {
-        SceneManager.LoadScene("BossScene");
+        SceneManager.LoadScene("TitleScene");
     }
     public void QuitGame()
     {

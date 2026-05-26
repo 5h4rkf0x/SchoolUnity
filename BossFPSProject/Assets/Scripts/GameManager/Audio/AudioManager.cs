@@ -24,6 +24,11 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip);
     }
 
+    public void StopSFX()
+    {
+        sfxSource.Stop();
+    }
+
     // 배경음 재생
     public void PlayBGM(AudioClip clip)
     {

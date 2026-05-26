@@ -491,6 +491,7 @@ MonoBehaviour:
   playerInput: {fileID: 1061956850250664084}
   playerCam: {fileID: 605938120298812980}
   playerAnimation: {fileID: 0}
+  jumpClip: {fileID: 8300000, guid: 56db983b4c298f5488bfa02c01d039b5, type: 3}
   weaponManager: {fileID: 0}
   magazineManager: {fileID: 0}
   groundLayer:
@@ -2859,7 +2860,6 @@ MonoBehaviour:
   fireTransform: {fileID: 2892643985839100366}
   magazine: {fileID: 8420264854535659512}
   hitMarker: {fileID: 0}
-  audioManager: {fileID: 0}
   fireClip: {fileID: 8300000, guid: 2b543fb5bf480fe44bfb2cf1020dc912, type: 3}
   blankFireClip: {fileID: 8300000, guid: 4b67c1cf70f24dc479c0d208bd3ea49d, type: 3}
   reloadingClip: {fileID: 8300000, guid: 00c3f4d69a620c944a954f4c2d3fb6ba, type: 3}

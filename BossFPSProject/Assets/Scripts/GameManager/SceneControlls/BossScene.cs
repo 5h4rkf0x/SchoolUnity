@@ -26,10 +26,14 @@ public class BossScene : MonoBehaviour
 
     public void GoToEnding()
     {
+        AudioManager.instance.StopBGM();
+        AudioManager.instance.StopSFX();
         SceneManager.LoadScene("EndingScene");
     }
     public void GoToGameOver()
     {
+        AudioManager.instance.StopBGM();
+        AudioManager.instance.StopSFX();
         SceneManager.LoadScene("GameOverScene");
     }
 }

@@ -7,6 +7,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform parent;
     [SerializeField] private TrailRenderer trail;
+    [SerializeField] private AudioClip hitClip;
 
     private WeaponManager weapon;
     private Coroutine lifeCoroutine;
@@ -36,6 +37,7 @@ public class BulletController : MonoBehaviour
         else if (collision.transform.root.CompareTag("Boss"))
         {
             Debug.Log("보스 타격!");
+            AudioManager.instance.PlaySFX(hitClip);
             Boss Boss = collision.transform.root.GetComponent<Boss>();
     
             Boss.TakeDamage(bulletDamage);

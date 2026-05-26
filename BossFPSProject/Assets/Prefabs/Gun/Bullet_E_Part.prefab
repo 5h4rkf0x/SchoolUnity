@@ -278,4 +278,5 @@ MonoBehaviour:
   rb: {fileID: 0}
   parent: {fileID: 0}
   trail: {fileID: 0}
+  hitClip: {fileID: 8300000, guid: aff3c8c413551a64a94b0d75c241d226, type: 3}
   bulletDamage: 10
