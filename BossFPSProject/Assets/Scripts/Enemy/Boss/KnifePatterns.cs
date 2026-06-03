@@ -23,7 +23,6 @@ public class KnifePatterns : MonoBehaviour
     [Header("Structs")]
     // 타겟 위치 및 칼 관리 변수 -> KnifeManager로 이동
 
-    [SerializeField] private Transform bossTransform;
     [SerializeField] private Vector3 spawnPos;
     [SerializeField] private Quaternion spawnRot;
 

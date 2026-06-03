@@ -2,18 +2,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+    public enum PlayerStates
+    {
+        Plus,
+        Minus
+    }
+
     [SerializeField] private PlayerHpBar hpUI;
+
+    private PlayerStates currentPlayerState;
 
     [SerializeField] private float maxHealth = 100;
     [SerializeField] private float health;
 
     public float Health => health;
+    public PlayerStates CurrentPlayerState => currentPlayerState;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         hpUI = FindFirstObjectByType<PlayerHpBar>();
         health = maxHealth;
+    }
+
+    public void ChangeState()
+    {
+        if (currentPlayerState == PlayerStates.Plus)
+        {
+            currentPlayerState = PlayerStates.Minus;
+        }
+        else
+        {
+            currentPlayerState = PlayerStates.Plus;
+        }
     }
 
     private void Start()

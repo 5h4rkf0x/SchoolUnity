@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -105,6 +106,14 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("ø¨ªÁ ∏ÿ√„");
             weaponManager.StopFire();
+        }
+    }
+
+    public void OnChangeState(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            Player.instance.ChangeState();
         }
     }
 

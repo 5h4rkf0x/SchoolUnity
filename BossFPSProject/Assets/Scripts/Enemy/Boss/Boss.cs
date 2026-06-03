@@ -75,7 +75,6 @@ public class Boss: MonoBehaviour
         }
     }
 
-
     public void TakeDamage(float bulletDamage)
     {
         health -= bulletDamage;
