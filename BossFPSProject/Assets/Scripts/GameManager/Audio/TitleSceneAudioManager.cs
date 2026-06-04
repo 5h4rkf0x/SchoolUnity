@@ -29,6 +29,7 @@ public class TitleSceneAudioManager: MonoBehaviour
 
     public void PlayButtonClick()
     {
+        titleBGMSource.Stop();
         buttonClickSource.PlayOneShot(buttonClickClip);
     }
 }

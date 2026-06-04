@@ -10,6 +10,7 @@ public class PlusStateCube : MonoBehaviour
         }
         else
         {
+            Debug.Log(other + "와 충돌함");
             Player.instance.TakeDamage(100);
         }
     }

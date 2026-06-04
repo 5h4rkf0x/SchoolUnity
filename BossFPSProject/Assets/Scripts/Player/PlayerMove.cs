@@ -17,7 +17,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private PlayerAnimation playerAnimation;
     [SerializeField] private AudioClip jumpClip;
 
-
     // GunControl
     [SerializeField] WeaponManager weaponManager;
     [SerializeField] private MagazineManager magazineManager;

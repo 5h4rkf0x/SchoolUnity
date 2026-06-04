@@ -472,6 +472,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   hpUI: {fileID: 0}
+  plusStateUI: {fileID: 0}
+  minusStateUI: {fileID: 0}
   maxHealth: 100
   health: 0
 --- !u!114 &7087831558273848031
