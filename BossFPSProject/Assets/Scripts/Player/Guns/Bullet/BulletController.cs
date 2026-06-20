@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.Assertions.Must;
 
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider coll;
     [SerializeField] private Transform parent;
     [SerializeField] private TrailRenderer trail;
     [SerializeField] private AudioClip hitClip;
@@ -13,12 +15,14 @@ public class BulletController : MonoBehaviour
     private Coroutine lifeCoroutine;
 
     [SerializeField] private float bulletDamage;
+    [SerializeField] private float bulletSpeed;
 
     private void Awake()
     {
         weapon = FindFirstObjectByType<WeaponManager>();
         rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
+        coll = GetComponent<CapsuleCollider>();
     }
     public void Init(MagazineManager magazineManager)
     {
@@ -65,6 +69,17 @@ public class BulletController : MonoBehaviour
 
         lifeCoroutine = StartCoroutine(ReturnAfterTime(lifeTime));
     }
+
+    // private void IfBossHit()
+    // {
+    //     Vector3 currentDir = rb.linearVelocity.normalized;
+    //     Vector3 point1 = transform.TransformPoint(coll.center) + transform.up * coll.height / 2 - coll.radius);
+    //     Vector3 point2 = transform.TransformPoint(coll.center) - transform.up * coll.height / 2 - coll.radius);
+    //     float raycastDistance = (currentDir * rb.linearVelocity.magnitude * Time.fixedDeltaTime).magnitude;
+    // 
+    //     RaycastHit hit = Physics.CapsuleCast(point1, point2, coll.radius, currentDir, raycastDistance);
+    // 
+    // }
 
     private IEnumerator ReturnAfterTime(float lifeTime)
     {

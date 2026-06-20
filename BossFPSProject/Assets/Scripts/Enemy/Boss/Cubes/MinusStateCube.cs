@@ -8,7 +8,6 @@ public class MinusStateCube : MonoBehaviour
     [SerializeField] private CubeManager cubeManager;
     private Rigidbody rb;
 
-    private Vector2 dir;
 
     void Awake()
     {
@@ -16,37 +15,29 @@ public class MinusStateCube : MonoBehaviour
         cubeManager = FindFirstObjectByType<CubeManager>();
     }
 
-    private void Start()
-    {
-        dir = cubeManager.cubeDir;
-    }
 
     private void FixedUpdate()
     {
-        Move(cubeManager.cubeSpeed, dir);
+        Move(cubeManager.cubeSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.tag);
         if (other.tag == "Player" && Player.instance.CurrentPlayerState == Player.PlayerStates.Minus)
         {
             gameObject.SetActive(false);
         }
-        else
+        else if (other.tag == "Boss")
         {
             Player.instance.TakeDamage(100);
             gameObject.SetActive(false);
         }
     }
 
-    private void Move(float speed, Vector3 dir)
+    private void Move(float speed)
     {
-        if (dir.sqrMagnitude < 0.001f)
-        {
-            rb.linearVelocity = Vector3.zero;
-            return;
-        }
-
+        Vector3 dir = cubeManager.transform.position - transform.position;
         dir.Normalize();
         rb.linearVelocity = dir * speed;
     }

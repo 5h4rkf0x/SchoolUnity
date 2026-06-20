@@ -109,6 +109,7 @@ public class KnifeManager : MonoBehaviour
     private void UseKnifePattern(int knifeNum, int patternNum)
     {
         if (!CheckKnifeList(knifeNum)) return;
+        if (boss.BossPattern.patternStates[2]) return;
 
         switch (patternNum)
         {

@@ -59,6 +59,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Heal(float HealAmount)
+    {
+        health += HealAmount;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        hpUI.SetHP(health, maxHealth);
+    }
+
     public void TakeDamage(float Damage)
     {
         health -= Damage;

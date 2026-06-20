@@ -36,12 +36,14 @@ public class BossMove : MonoBehaviour
 
     void Update() // FixedUpdate에서 관리중인 Boss의 움직임 함수를, Update에서 하는 것이 더 나은가?
     {
+        if (boss.BossPattern.patternStates[2]) return;
         afterMoveTime += Time.deltaTime;
         LookPlayer(boss.TargetPos);
     }
 
     void FixedUpdate()
     {
+        if (boss.BossPattern.patternStates[2]) return;
         if (isMoving)
         {
             float distance = Vector3.Distance(transform.position, moveLocation);
@@ -82,6 +84,7 @@ public class BossMove : MonoBehaviour
 
     private void MoveBoss()
     {
+        if (boss.isInvincible) return;
         // 랜덤 구체 범위 내에서 보스가 이동함 -> 전체 범위의 지정 필요
         Debug.Log("보스가 움직인다!");
         isMoving = true;

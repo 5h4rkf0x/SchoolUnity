@@ -3,13 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements.Experimental;
 
-public class Boss: MonoBehaviour
+public class Boss : MonoBehaviour
 {
     [Header("Components")]
 
     // 보스 관련
     [SerializeField] public Rigidbody rb;
     [SerializeField] private BossHpBar hpUI;
+
+    [SerializeField] private BossPattern bossPattern;
+    [SerializeField] private BossMove bossMove;
 
     // 보스 칼날 관련
     [SerializeField] KnifeManager knifeManager;
@@ -27,17 +30,21 @@ public class Boss: MonoBehaviour
     [Header("Variables")]
     [SerializeField] private float health;
     [SerializeField] private float maxHealth;
+    public bool isInvincible = false;
+
 
     public List<Transform> KnifeSpawnPoint => knifeSpawnPoint;
 
     public CapsuleCollider Target => target;
     public Vector3 TargetPos => targetPos;
     public List<Vector3> KnifeDir => knifeDir;
-
     public float Health => health;
+    public BossPattern BossPattern => bossPattern;
 
     private void Awake()
     {
+        bossPattern = GetComponent<BossPattern>();
+        bossMove = GetComponent<BossMove>();
         rb = GetComponent<Rigidbody>();
         playerMove = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -58,6 +65,11 @@ public class Boss: MonoBehaviour
         RefreshKnifeDir(); // -----얘는 KnifeManager에서 관리하는게 메모리적으로 이득이 될 것 같은 느낌이 든다... 항상 리스트의 모든 변수를 초기화 해주지 않아도 되기 때문
 
         // KnifeManager에서 칼 번호를 매개변수로 받아서 if구문으로 각 번호의 칼의 방향만 바꿀까? update로 항상 리스트를 계속 초기화해주면 메모리 많이 먹을 것 같은데
+        if (bossPattern.CubeManager.isCubePatternEnd)
+        {
+            bossPattern.EndSetStatePattern();
+            bossMove.enabled = true;
+        }
 
     }
 
@@ -77,11 +89,26 @@ public class Boss: MonoBehaviour
 
     public void TakeDamage(float bulletDamage)
     {
+        if (isInvincible) return;
+
         health -= bulletDamage;
         hpUI.SetHP(health, maxHealth);
 
         Debug.Log(health);
-
+        if (health >= 333 && health <= 666 && !bossPattern.patternStates[1])   // 여기에 StateFieldPattern도 실행조건 적기
+        {
+            bossPattern.patternStates[1] = true;
+            bossPattern.patternStates[2] = true;
+            bossPattern.ReadyStatePattern();
+            StartCoroutine(bossPattern.CubeManager.UseStatePattern());
+        }
+        else if (health <= 333 && !bossPattern.patternStates[0])
+        {
+            bossPattern.patternStates[0] = true;
+            bossPattern.patternStates[2] = true;
+            bossPattern.ReadyStatePattern();
+            StartCoroutine(bossPattern.CubeManager.UseStatePattern());
+        }
         if (health <= 0)
         {
             Die();

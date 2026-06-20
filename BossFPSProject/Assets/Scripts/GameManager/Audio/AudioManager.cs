@@ -8,7 +8,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource explodeSource;
-
+    [SerializeField] private BossExplodeAreaManager bossExplodeManager;
+    
     private void Awake()
     {
         if (instance == null)
@@ -16,6 +17,7 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        bossExplodeManager = FindFirstObjectByType<BossExplodeAreaManager>();
     }
 
     // 효과음 재생
@@ -44,6 +46,16 @@ public class AudioManager : MonoBehaviour
 
     public void PlayExplode(AudioClip clip)
     {
+        if (clip == null)
+        {
+            Debug.Log("clip");
+            return;
+        }
+        else if (explodeSource == null)
+        {
+            explodeSource = bossExplodeManager.GetComponent<AudioSource>();
+            Debug.Log("explodeSource");
+        }
         explodeSource.PlayOneShot(clip);
     }
 }

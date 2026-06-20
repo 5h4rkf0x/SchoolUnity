@@ -28,6 +28,7 @@ public class KnifePatterns : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] public int knifeID;
+    private bool flying = false;
     private bool explosiveKnife = false;
 
     void Awake()
@@ -74,6 +75,7 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 직접 날아가 공격 - 회전하면서 날아가는것도 좋을듯?
         rb.isKinematic = false;
+        flying = true;
         transform.SetParent(null);
 
         TargetDir(dir);
@@ -86,17 +88,22 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 날아가 1초 정도 뒤에 폭발 ----- 시전 전의 타겟의 위치에 도달시 정지 후 폭발
         rb.isKinematic = false;
+        flying = true;
         transform.SetParent(null);
         explosiveKnife = true;
 
         TargetDir(dir);
 
         rb.linearVelocity = dir * knifeManager.KnifeSpeed;
-        StartCoroutine(Explode(startPos, targetPos));
+        if (!flying)
+        {
+            StartCoroutine(Explode(startPos, targetPos));
+        }
     }
 
     private IEnumerator Explode(Vector3 startPos, Vector3 targetPos)
     {
+        if (flying) yield break;
         float timer = 0;
         float lifeTime = 3;
         while (timer <= lifeTime)
@@ -105,24 +112,32 @@ public class KnifePatterns : MonoBehaviour
 
             if (Vector3.Distance(startPos, targetPos) <= knifeManager.KnifeSpeed * timer)
             {
-                rb.linearVelocity = Vector3.zero;
-                explodeObj.SetActive(false);
-                yield return new WaitForSeconds(1f);
-                explodeObj.SetActive(true);
-                bossExplodeAreaManager.ExplodeSound();
-                yield return new WaitForSeconds(1f);
-                explodeObj.SetActive(false);
-                explosiveKnife = false;
-                knifeManager.ResetKnife(knifeID);
-                knifeManager.StartReloadKnife(knifeID);
-                gameObject.SetActive(false);
+                break;
             }
             yield return null;
         }
+        rb.linearVelocity = Vector3.zero;
+        explodeObj.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        explodeObj.SetActive(true);
+        bossExplodeAreaManager.ExplodeSound();
+        yield return new WaitForSeconds(1f);
+        explodeObj.SetActive(false);
+        explosiveKnife = false;
+        knifeManager.ResetKnife(knifeID);
+        knifeManager.StartReloadKnife(knifeID);
+        flying = false;
+        gameObject.SetActive(false);
     }
+
     public void Explode()
     {
         Debug.Log("폭발 데미지 받음!!!@@@@@");
         knifeManager.ExplodePlayer();
+    }
+
+    private void OnDisable()
+    {
+        flying = false;
     }
 }

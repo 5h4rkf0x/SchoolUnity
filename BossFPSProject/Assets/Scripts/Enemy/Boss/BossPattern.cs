@@ -1,15 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BossPatern : MonoBehaviour
+public class BossPattern : MonoBehaviour
 {
     // 보스 이동은 잘 되는데 이후 바로 즉사함
-    
+
     [SerializeField] private BossExplodeAreaManager bossExplodeAreaManager;
-    [SerializeField] private Boss bossScript;
-    [SerializeField] private BossMove bossMoveScript;
+    [SerializeField] private Boss boss;
 
     [SerializeField] private CubeManager cubeManager;
+    [SerializeField] private StateFieldManager stateFieldManager;
 
     [SerializeField] private float cubePatternRadius;
 
@@ -18,59 +18,43 @@ public class BossPatern : MonoBehaviour
     private float nextPatternTime = 10f;
     private float afterPatternTime = 0f;
 
-    [SerializeField] private List<bool> patternStates; // 0:333체력 / 1:666체력 / 2:패턴이 실행 중인가?
+    [SerializeField] public List<bool> patternStates; // 0:333체력 / 1:666체력 / 2:패턴이 실행 중인가?
 
     public float CubePatternRadius => cubePatternRadius;
+    public CubeManager CubeManager => cubeManager;
 
     private void Awake()
     {
         RefreshPatternTime();
         bossExplodeAreaManager = GetComponentInChildren<BossExplodeAreaManager>();
+        boss = GetComponent<Boss>();
     }
 
     private void Update()
     {
         afterPatternTime += Time.deltaTime;
-        
+
         if (afterPatternTime >= nextPatternTime)
         {
             afterPatternTime = 0f;
             RefreshPatternTime();
             FloorBombAttack();
         }
-
-        // 전극패턴
-
-        if (bossScript.Health >= 333 && bossScript.Health <= 666 && !patternStates[1])
-        {
-            patternStates[0] = true;
-            patternStates[2] = true;
-            ReadyStatePattern();
-            StartCoroutine(cubeManager.UseStatePattern());
-        }
-        else if (bossScript.Health <= 333 && !patternStates[0])
-        {
-            patternStates[1] = true;
-            patternStates[2] = true;
-            ReadyStatePattern();
-            StartCoroutine(cubeManager.UseStatePattern());
-        }
     }
-
 
     // 전극패턴
 
     public void ReadyStatePattern()
     {
-        bossScript.enabled = false;
-        bossMoveScript.enabled = false;
-        gameObject.transform.position = new Vector3(0, 3, 0);
+        boss.isInvincible = true;
+        gameObject.transform.position = new Vector3(0, 2, 0);
     }
 
     public void EndSetStatePattern()
     {
-        bossScript.enabled = true;
-        bossMoveScript.enabled = true;
+        boss.isInvincible = true;
+        cubeManager.isCubePatternEnd = false;
+        patternStates[2] = false;
     }
 
 
@@ -84,6 +68,7 @@ public class BossPatern : MonoBehaviour
 
     private void FloorBombAttack()   // 지형 원형으로 랜덤하게 파괴 생성
     {
+        if (boss.isInvincible) return;
         bossExplodeAreaManager.SetFloorExplodeInfo();
     }
 }
