@@ -3,26 +3,41 @@ using UnityEngine;
 public class PlusStateField : MonoBehaviour
 {
     [SerializeField] private Player player;
+    private bool isCollided = false;
 
     private void Awake()
     {
         player = FindFirstObjectByType<Player>();    
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        CheckPlayer(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        CheckPlayer(other);
+    }
+
+    private void CheckPlayer(Collider other)
+    {
+        if (other.CompareTag("Player") && !isCollided)
         {
-            // 플레이어가 +필드에 들어왔을 때의 효과를 여기에 구현
-            if (player.CurrentPlayerState == Player.PlayerStates.Plus)
+            isCollided = true;
+            if (player.CurrentPlayerState == PlayerStates.Plus)
             {
-                player.Heal(20);
+                player.Heal(30);
             }
             else
             {
-                player.TakeDamage(70);
+                player.TakeDamage(60);
             }
-            // 예: 플레이어의 체력을 회복하거나, 공격력을 증가시키는 등의 효과
         }
+    }
+
+    private void OnDisable()
+    {
+        isCollided = false;
     }
 }

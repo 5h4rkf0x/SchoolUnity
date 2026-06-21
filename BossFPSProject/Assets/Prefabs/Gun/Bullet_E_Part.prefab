@@ -141,9 +141,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.005
-  m_Height: 0.005
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0.004}
+  m_Height: 0.03
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &2140624225130291146
 TrailRenderer:
   serializedVersion: 4
@@ -276,7 +276,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletController
   rb: {fileID: 0}
+  coll: {fileID: 0}
   parent: {fileID: 0}
   trail: {fileID: 0}
   hitClip: {fileID: 8300000, guid: aff3c8c413551a64a94b0d75c241d226, type: 3}
+  bossLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  usePredictCast: 1
   bulletDamage: 10
+  bulletSpeed: 0

@@ -425,37 +425,6 @@ Transform:
   - {fileID: 8342055642725086456}
   m_Father: {fileID: 9211891800026770982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &683422781938207942
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4906196686167356362}
-  m_Layer: 7
-  m_Name: PlusField
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4906196686167356362
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 683422781938207942}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 62520214654816123}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891014213410171677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossExplodeAreaManager
   boss: {fileID: 0}
+  bossPattern: {fileID: 0}
   tempLocation: {fileID: 0}
   Warning: {fileID: 1667504834687031756, guid: 84961f1a3c6c4194cbc4678b4496dfe1, type: 3}
   bossExplodeWarningPools: []
@@ -1562,9 +1532,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4906196686167356362}
-  - {fileID: 5657055274425329077}
+  m_Children: []
   m_Father: {fileID: 5173425162983955283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1892816612085598457
@@ -1579,9 +1547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72803229ad8ebe44b840ae6fb1d7711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StateFieldManager
+  bossPattern: {fileID: 0}
   fieldLocations: []
-  plusStateField: {fileID: 0}
-  minusStateField: {fileID: 0}
+  plusStateField: {fileID: 4721353748945668135, guid: ffcbb531066bf4642af219fe47b41429, type: 3}
+  minusStateField: {fileID: -4254167386424791934, guid: cb687ac990ae5594d83a0a2b78b7f86e, type: 3}
+  plusStateWarning: {fileID: 1129034432188514017, guid: 57f45c250d9f25b4eb6e0f0331084e8c, type: 3}
+  minusStateWarning: {fileID: 3142470313634425884, guid: e6fd81e0063fb6f4bb848b8cbfdb5b4d, type: 3}
+  plusStateFieldList: []
+  plusStateWarningList: []
+  minusStateFieldList: []
+  minusStateWarningList: []
+  temp: {fileID: 0}
 --- !u!1 &3503779893274198476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,7 +1660,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   health: 0
-  maxHealth: 700
+  maxHealth: 1000
   isInvincible: 0
 --- !u!114 &5312963544504945761
 MonoBehaviour:
@@ -1718,12 +1694,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPatern
   bossExplodeAreaManager: {fileID: 0}
+  stateFieldManager: {fileID: 1892816612085598457}
   boss: {fileID: 0}
   cubeManager: {fileID: 3401606345296597609}
-  stateFieldManager: {fileID: 1892816612085598457}
   cubePatternRadius: 25
   minPatternTime: 3
   maxPatternTime: 8
+  isPatternActive: 0
   patternStates: 000000
 --- !u!1 &3520393177745211298
 GameObject:
@@ -2130,37 +2107,6 @@ Transform:
   - {fileID: 1804126886471178861}
   - {fileID: 2433599436398261846}
   m_Father: {fileID: 5206015486331409130}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4371446280646222932
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5657055274425329077}
-  m_Layer: 7
-  m_Name: MinusField
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5657055274425329077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4371446280646222932}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 62520214654816123}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4397200917111274018
 GameObject:

@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 public class BossExplodeAreaManager : MonoBehaviour
 {
     [SerializeField] private Boss boss;
+    [SerializeField] private BossPattern bossPattern;
     [SerializeField] private GameObject tempLocation;
 
     // 주의표시
@@ -28,6 +29,7 @@ public class BossExplodeAreaManager : MonoBehaviour
     private void Awake()
     {
         boss = GetComponentInParent<Boss>();
+        bossPattern = GetComponentInParent<BossPattern>();
         tempLocation = GameObject.Find("Temp");
 
         for (int i = 0; i < count; i++)
@@ -65,6 +67,8 @@ public class BossExplodeAreaManager : MonoBehaviour
 
     private IEnumerator StartExplodePattern()
     {
+        if (bossPattern.isPatternActive) yield break;
+        bossPattern.isPatternActive = true;
         Debug.Log("폭발패턴 실행");
         for (int i = 0; i < count; i++)
         {
@@ -82,7 +86,7 @@ public class BossExplodeAreaManager : MonoBehaviour
         {
             explodeAreaPools[i].gameObject.SetActive(false);
         }
-        yield break;
+        bossPattern.isPatternActive = false;
     }
 
     public void ExplodeSound()

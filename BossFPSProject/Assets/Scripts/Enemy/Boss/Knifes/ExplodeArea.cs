@@ -6,6 +6,8 @@ public class ExplodeArea : MonoBehaviour
     [SerializeField] private SphereCollider explodeArea;
     [SerializeField] private KnifePatterns knife;
 
+    private bool isDamaged = false;
+
     private void Awake()
     {
         explodeArea = GetComponent<SphereCollider>();
@@ -13,10 +15,24 @@ public class ExplodeArea : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        isExplodePlayer(other);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        isExplodePlayer(other);
+    }
+
+    private void isExplodePlayer(Collider other)
+    {
+        if (other.CompareTag("Player") && !isDamaged)
         {
-            Debug.Log("플레이어가 폭발범위 내부입니다!!!!!");
+            isDamaged = true;
             knife.Explode();
         }
+    }
+
+    private void OnDisable()
+    {
+        isDamaged = false;
     }
 }

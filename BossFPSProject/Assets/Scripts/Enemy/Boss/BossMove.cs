@@ -36,14 +36,19 @@ public class BossMove : MonoBehaviour
 
     void Update() // FixedUpdate에서 관리중인 Boss의 움직임 함수를, Update에서 하는 것이 더 나은가?
     {
-        if (boss.BossPattern.patternStates[2]) return;
+        if (!CanMove()) return;
         afterMoveTime += Time.deltaTime;
         LookPlayer(boss.TargetPos);
     }
 
     void FixedUpdate()
     {
-        if (boss.BossPattern.patternStates[2]) return;
+        if (!CanMove())
+        {
+            StopMove();
+            return;
+        }
+
         if (isMoving)
         {
             float distance = Vector3.Distance(transform.position, moveLocation);
@@ -82,6 +87,18 @@ public class BossMove : MonoBehaviour
         moveLocation.z = Mathf.Clamp(moveLocation.z, minLimit.z, maxLimit.z);
     }
 
+    private bool CanMove()
+    {
+        return !boss.isInvincible && !boss.BossPattern.patternStates[2];
+    }
+
+    public void StopMove()
+    {
+        isMoving = false;
+        boss.rb.linearVelocity = Vector3.zero;
+        boss.rb.angularVelocity = Vector3.zero;
+    }
+
     private void MoveBoss()
     {
         if (boss.isInvincible) return;
@@ -92,17 +109,5 @@ public class BossMove : MonoBehaviour
 
         Vector3 dir = (moveLocation - transform.position).normalized;
         boss.rb.linearVelocity = dir * moveSpeed;
-    }
-
-    // Patterns
-
-    private void DashToPlayer(CapsuleCollider target)
-    {
-
-    }
-    private void FloorBombAttack(CapsuleCollider target)
-    {
-        // 지형 원형으로 랜덤하게 파괴 생성
-
     }
 }

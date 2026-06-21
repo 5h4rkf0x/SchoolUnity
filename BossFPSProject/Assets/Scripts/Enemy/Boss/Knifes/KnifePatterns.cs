@@ -1,17 +1,8 @@
-using UnityEditor;
 using UnityEngine;
 using System.Collections;
-using System.Net;
-using System.Collections.Generic;
 
 public class KnifePatterns : MonoBehaviour
-{
-    /// <summary>
-    /// 필요한 것
-    /// 1. 재설정 함수들
-    /// 2. 
-    /// </summary>
-    
+{    
     [Header("Components")]
     // 필요한 클래스 객체 불러오기
     [SerializeField] private KnifeManager knifeManager;
@@ -19,6 +10,8 @@ public class KnifePatterns : MonoBehaviour
     [SerializeField] private ExplodeArea explodeArea;
     GameObject explodeObj;
     public Rigidbody rb;
+    [SerializeField] private CapsuleCollider coll;
+    private bool isCollided = false;
 
     [Header("Structs")]
     // 타겟 위치 및 칼 관리 변수 -> KnifeManager로 이동
@@ -37,18 +30,27 @@ public class KnifePatterns : MonoBehaviour
         knifeManager = GetComponentInParent<KnifeManager>();
         Transform temp = gameObject.transform.root;
         bossExplodeAreaManager = temp.GetComponentInChildren<BossExplodeAreaManager>();
+        coll = GetComponent<CapsuleCollider>();
     }
 
     private void Start()
     {
         explodeObj = Instantiate(explodeArea.gameObject, gameObject.transform);
         explodeObj.SetActive(false);
+        coll.enabled = false;
+    }
+
+    private void OnEnable()
+    {
+        coll.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+
+        if (other.gameObject.tag == "Player" && !isCollided)
         {
+            isCollided = true;
             knifeManager.HitPlayer();
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !rb.isKinematic)
@@ -75,6 +77,7 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 직접 날아가 공격 - 회전하면서 날아가는것도 좋을듯?
         rb.isKinematic = false;
+        coll.enabled = true;
         flying = true;
         transform.SetParent(null);
 
@@ -88,6 +91,7 @@ public class KnifePatterns : MonoBehaviour
     {
         // 타겟에게 날아가 1초 정도 뒤에 폭발 ----- 시전 전의 타겟의 위치에 도달시 정지 후 폭발
         rb.isKinematic = false;
+        coll.enabled = true;
         flying = true;
         transform.SetParent(null);
         explosiveKnife = true;
@@ -95,15 +99,12 @@ public class KnifePatterns : MonoBehaviour
         TargetDir(dir);
 
         rb.linearVelocity = dir * knifeManager.KnifeSpeed;
-        if (!flying)
-        {
-            StartCoroutine(Explode(startPos, targetPos));
-        }
+        StartCoroutine(Explode(startPos, targetPos));
     }
 
     private IEnumerator Explode(Vector3 startPos, Vector3 targetPos)
     {
-        if (flying) yield break;
+        if (!flying) yield break;
         float timer = 0;
         float lifeTime = 3;
         while (timer <= lifeTime)
@@ -139,5 +140,6 @@ public class KnifePatterns : MonoBehaviour
     private void OnDisable()
     {
         flying = false;
+        isCollided = false;
     }
 }

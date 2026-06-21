@@ -39,6 +39,9 @@ public class Boss : MonoBehaviour
     public Vector3 TargetPos => targetPos;
     public List<Vector3> KnifeDir => knifeDir;
     public float Health => health;
+
+    public BossMove BossMove => bossMove;
+
     public BossPattern BossPattern => bossPattern;
 
     private void Awake()
@@ -46,8 +49,8 @@ public class Boss : MonoBehaviour
         bossPattern = GetComponent<BossPattern>();
         bossMove = GetComponent<BossMove>();
         rb = GetComponent<Rigidbody>();
-        playerMove = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        playerMove = FindFirstObjectByType<PlayerMove>();
+        player = FindFirstObjectByType<Player>();
         hpUI = FindFirstObjectByType<BossHpBar>();
         health = maxHealth;
         knifeManager.SpawnKnives(KnifeSpawnPoint);

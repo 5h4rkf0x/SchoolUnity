@@ -16,8 +16,14 @@ public class CubeManager : MonoBehaviour
     [SerializeField] private GameObject plusCube;
     [SerializeField] private GameObject minusCube;
 
+    private HashSet<GameObject> activeCubes = new HashSet<GameObject>();
+
     [SerializeField] private float speed = 3f;
+
     public bool isCubePatternEnd = false;
+    private int targetCubeCount = 10;
+    private int spawnedCubeCount;
+    private bool isSpawning;
 
     public float cubeSpeed => speed;
 
@@ -45,26 +51,59 @@ public class CubeManager : MonoBehaviour
 
     public IEnumerator UseStatePattern()
     {
-
+        isCubePatternEnd = false;
+        isSpawning = true;
+        spawnedCubeCount = 0;
+        activeCubes.Clear();
         float summonCubeTime = 1.5f;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < targetCubeCount; i++)
         {
-            summonCubeTime -= 0.1f;
+            summonCubeTime -= 0.05f;
             int cubeStatesNum = Random.Range(1, 201);
+
+            GameObject cube;
+
             if (cubeStatesNum <= 100)
             {
-                plusCubeList[i].gameObject.transform.position = GetRandomPointOnCircleXZ(bossPatern.gameObject.transform.position, bossPatern.CubePatternRadius);
-                plusCubeList[i].gameObject.SetActive(true);
+                cube = plusCubeList[i];
             }
-            else if (cubeStatesNum > 100)
+            else
             {
-                minusCubeList[i].gameObject.transform.position = GetRandomPointOnCircleXZ(bossPatern.gameObject.transform.position, bossPatern.CubePatternRadius);
-                minusCubeList[i].gameObject.SetActive(true);
+                cube = minusCubeList[i];
             }
+
+            cube.transform.position = GetRandomPointOnCircleXZ(bossPatern.transform.position, bossPatern.CubePatternRadius);
+
+            cube.SetActive(true);
+            RegisterCubeSpawned(cube);
 
             yield return new WaitForSeconds(summonCubeTime);
         }
+        isSpawning = false;
+        TryEndCubePattern();
+    }
+
+    public void RegisterCubeSpawned(GameObject cube)
+    {
+        spawnedCubeCount++;
+        activeCubes.Add(cube);
+    }
+
+    public void NotifyCubeRemoved(GameObject cube)
+    {
+        if (!activeCubes.Remove(cube))
+            return;
+
+        TryEndCubePattern();
+    }
+
+    private void TryEndCubePattern()
+    {
+        if (isSpawning) return;
+        if (spawnedCubeCount < targetCubeCount) return;
+        if (activeCubes.Count > 0) return;
+
         isCubePatternEnd = true;
     }
 }

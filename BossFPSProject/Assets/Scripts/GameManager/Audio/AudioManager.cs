@@ -17,6 +17,10 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    private void Start()
+    {
         bossExplodeManager = FindFirstObjectByType<BossExplodeAreaManager>();
     }
 
@@ -46,16 +50,20 @@ public class AudioManager : MonoBehaviour
 
     public void PlayExplode(AudioClip clip)
     {
-        if (clip == null)
+        if (bossExplodeManager == null)
         {
-            Debug.Log("clip");
+            Debug.Log("BossExplodeAreaManager");
+            bossExplodeManager = FindFirstObjectByType<BossExplodeAreaManager>();
             return;
         }
-        else if (explodeSource == null)
+
+        if (explodeSource == null)
         {
+            Debug.Log("BossExplodeAreaManager");
             explodeSource = bossExplodeManager.GetComponent<AudioSource>();
-            Debug.Log("explodeSource");
+            return;
         }
+
         explodeSource.PlayOneShot(clip);
     }
 }

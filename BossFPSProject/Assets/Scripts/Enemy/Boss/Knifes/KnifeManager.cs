@@ -37,6 +37,7 @@ public class KnifeManager : MonoBehaviour
     [SerializeField] private List<float> afterPatternTime;
 
     public float KnifeSpeed => knifeSpeed;
+    public float KnifeDamage => knifeDamage;
     public float RotationSpeed => rotateSpeed;
 
     private void Awake()

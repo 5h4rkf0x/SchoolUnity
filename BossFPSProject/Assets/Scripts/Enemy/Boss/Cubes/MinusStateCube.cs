@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class MinusStateCube : MonoBehaviour
 {
-
-    // 보스 이동은 잘 되는데 이후 바로 즉사함
-
     [SerializeField] private CubeManager cubeManager;
     private Rigidbody rb;
 
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask bossLayer;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         cubeManager = FindFirstObjectByType<CubeManager>();
+        playerLayer = LayerMask.GetMask("Player");
+        bossLayer = LayerMask.GetMask("Boss");
     }
-
 
     private void FixedUpdate()
     {
@@ -23,16 +23,22 @@ public class MinusStateCube : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
-        if (other.tag == "Player" && Player.instance.CurrentPlayerState == Player.PlayerStates.Minus)
+        if (IsInLayerMask(other.gameObject, playerLayer) && Player.instance.CurrentPlayerState == PlayerStates.Minus)
         {
+            cubeManager.NotifyCubeRemoved(gameObject);
             gameObject.SetActive(false);
         }
-        else if (other.tag == "Boss")
+        else if (IsInLayerMask(other.gameObject, bossLayer))
         {
             Player.instance.TakeDamage(100);
+            cubeManager.NotifyCubeRemoved(gameObject);
             gameObject.SetActive(false);
         }
+    }
+
+    private bool IsInLayerMask(GameObject obj, LayerMask layerMask)
+    {
+        return (layerMask.value & (1 << obj.layer)) != 0;
     }
 
     private void Move(float speed)

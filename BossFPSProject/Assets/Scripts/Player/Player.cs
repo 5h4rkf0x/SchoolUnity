@@ -2,14 +2,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.InputManagerEntry;
 
+
+public enum PlayerStates
+{
+    Plus,
+    Minus
+}
+
+
 public class Player : MonoBehaviour
 {
     public static Player instance;
-    public enum PlayerStates
-    {
-        Plus,
-        Minus
-    }
 
     [SerializeField] private PlayerHpBar hpUI;
     [SerializeField] private GameObject plusStateUI;

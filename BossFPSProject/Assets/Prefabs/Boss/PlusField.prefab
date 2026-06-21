@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4214532724309947271}
   - component: {fileID: 7715595622724110151}
   - component: {fileID: 5877677442762291456}
+  - component: {fileID: 4721353748945668135}
   m_Layer: 0
   m_Name: PlusField
   m_TagString: Untagged
@@ -110,5 +111,18 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 700, z: 1}
+  m_Center: {x: 0, y: 350, z: 0}
+--- !u!114 &4721353748945668135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6050252991606436468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc3ceb63cc14cc45b2235496ed98718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlusStateField
+  player: {fileID: 0}
