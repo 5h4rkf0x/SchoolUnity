@@ -11,12 +11,17 @@ public class EndingSceneAudioManager: MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            instance = null;
         }
     }
+
     public void PlayBGM(AudioClip clip)
     {
         endingBGMSource.clip = clip;

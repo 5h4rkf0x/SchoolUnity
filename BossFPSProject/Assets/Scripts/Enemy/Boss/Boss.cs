@@ -73,7 +73,6 @@ public class Boss : MonoBehaviour
             bossPattern.EndSetStatePattern();
             bossMove.enabled = true;
         }
-
     }
 
     private void RefreshTargetPos()

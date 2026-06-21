@@ -9,13 +9,17 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource explodeSource;
     [SerializeField] private BossExplodeAreaManager bossExplodeManager;
-    
+
     private void Awake()
     {
-        if (instance == null)
+        instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            instance = null;
         }
     }
 
